@@ -28,7 +28,7 @@ public class CartridgeScript : ItemScript {
                 Destroy(this.gameObject);
             }
         } else {
-            simpleHandle.Master.handAnimate("", simpleHandle.HandIndex, new[]{this.transform.position, this.transform.eulerAngles});
+            simpleHandle.Master.handAnimate("Cartridge", simpleHandle.HandIndex, new[]{this.transform.position, this.transform.eulerAngles});
             Lifetime = 100f;
             if(Ripped <= 0f && Head && Vector3.Distance(this.transform.position, Head.transform.position) < 0.2f){
                 Ripped = 1f;
