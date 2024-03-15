@@ -52,14 +52,13 @@ public class CartridgeScript : ItemScript {
             if(sipAngle[0] < sipAngle[1]){
                 Sip.Play();
                 sipEmission.rateOverTime = Mathf.Lerp(200f, 100f, sipAngle[0] / sipAngle[1]);
-                PlayAudio("_CartridgePour");
-                ItemSound.volume = 1f - (sipAngle[0] / sipAngle[1]);
+                PlayAudio("_CartridgePour", 1f - (sipAngle[0] / sipAngle[1]), -1);
                 float sipPower = Mathf.Lerp(Time.deltaTime * 7f, Time.deltaTime / 2f, sipAngle[0] / sipAngle[1]);
                 PowderGrams -= sipPower;
                 Ray Checkpowder = new (Sip.transform.position, Sip.transform.forward);
                 if(Physics.Raycast(Checkpowder, out RaycastHit Hitpowder, 0.3f) && Hitpowder.collider.name == "MusketBody"){
                     FlintLockScript fs = Hitpowder.collider.transform.parent.GetComponent<FlintLockScript>();
-                    if (Vector3.Distance(Hitpowder.point, fs.powder.position) < 0.1f) fs.loadedPowder = Mathf.Clamp(fs.loadedPowder + sipPower, 0f, 1f);
+                    if (Vector3.Distance(Hitpowder.point, fs.powder.position) < 0.05f) fs.loadedPowder[0] = Mathf.Clamp(fs.loadedPowder[0] + sipPower, 0f, 1f);
                 }
             } else {
                 Sip.Stop();
@@ -74,8 +73,7 @@ public class CartridgeScript : ItemScript {
     }
 
     public override void ItemCollision(Collision collision){
-        if(collision.collider.name == "MusketBody" && Ripped > 0f && Vector3.Distance(this.transform.position, collision.collider.transform.parent.GetComponent<FlintLockScript>().Slimend.position) < 0.5f){
-            collision.collider.transform.parent.GetComponent<FlintLockScript>().LoadBullet("Cartridge", this.transform.position, this.transform.eulerAngles);
+        if(collision.collider.name == "MusketBody" && Ripped > 0f && collision.collider.transform.parent.GetComponent<FlintLockScript>().LoadBullet("Cartridge", this.transform.position, this.transform.eulerAngles, PowderGrams)){
             Destroy(Spent.gameObject);
             Destroy(this.gameObject);
         }

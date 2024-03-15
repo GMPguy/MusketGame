@@ -13,7 +13,8 @@ public class ItemScript : MonoBehaviour {
     protected Rigidbody Rig;
     public AudioClip[] ISclips;
     int SoundID;
-    float touching = 0f;
+    protected float[] touching = {1f, 0f}; // touching factor, if is touchin
+    bool activated = false;
 
     void Start () {
         Rig = this.GetComponent<Rigidbody>();
@@ -21,7 +22,10 @@ public class ItemScript : MonoBehaviour {
     }
 
     void Update(){
-        touching = Mathf.Clamp(touching + Time.deltaTime * 100f, 0f, 1f);
+        if(touching[1] > 0f){
+            touching[0] = 0.1f;
+            touching[1] -= 0.1f;
+        } else touching[0] = 1f;
 
         if(ItemSound.isPlaying == false) SoundID = -9999;
 
@@ -37,17 +41,18 @@ public class ItemScript : MonoBehaviour {
     }
 
     public void PlayAudio(string AudioName, float Volume = 1f, int Importance = 0, Vector3 AudioPos = default){
-        if(Importance >= SoundID && AudioName != "" && !(AudioName[0] == '_' && ItemSound.isPlaying && ItemSound.clip.name == AudioName[1..])){
+        if(Importance >= SoundID && AudioName != ""){
             SoundID = Importance;
             string theAudio = AudioName;
+            ItemSound.volume = Volume;
             if(theAudio[0] == '_') theAudio = AudioName[1..];
             if (AudioPos != default) ItemSound.transform.position = AudioPos;
-            for(int isc = 0; isc <= ISclips.Length; isc++){
+            else ItemSound.transform.position = this.transform.position;
+            if (!(AudioName[0] == '_' && ItemSound.isPlaying && ItemSound.clip.name == AudioName[1..])) for(int isc = 0; isc <= ISclips.Length; isc++){
                 if(isc == ISclips.Length){
                     Debug.LogError("No item sound clip of name " + AudioName + " found!");
                 } else if (ISclips[isc].name == theAudio){
                     ItemSound.clip = ISclips[isc];
-                    ItemSound.volume = Volume;
                     ItemSound.Play();
                     break;
                 }
@@ -64,7 +69,7 @@ public class ItemScript : MonoBehaviour {
     }
 
     void OnCollisionStay(Collision collision){
-        touching = -Time.deltaTime;
+        touching = new float[]{0.1f, 0.2f};
         ItemCollisionStay(collision);
     }
 
@@ -78,11 +83,13 @@ public class ItemScript : MonoBehaviour {
     }
 
     protected void setPos(bool Activate, Vector3[] targets = default){
+        activated = Activate;
         if(Activate){
             Rig.useGravity = false;
             Rig.velocity = Rig.angularVelocity = Vector3.zero;
-            this.transform.position = Vector3.Lerp(this.transform.position, targets[0], Time.deltaTime*10f*touching);
-            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(targets[1] - this.transform.position, targets[2]), Time.deltaTime*20f*(touching-0.5f));
+            this.transform.position = Vector3.Lerp(this.transform.position, targets[0], Time.deltaTime*10f*touching[0]);
+            if(targets.Length == 3) this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(targets[1] - this.transform.position, targets[2]), Time.deltaTime*10f* touching[0]);
+            else this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(targets[1]), Time.deltaTime*10f* touching[0]);
         } else {
             Rig.useGravity = true;
         }

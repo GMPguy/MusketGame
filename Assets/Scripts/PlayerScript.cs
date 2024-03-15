@@ -23,14 +23,14 @@ public class PlayerScript : MonoBehaviour {
     public float[] HandGrab = {0f, 0f};
     public bool[] hasGrabbed = {false, false};
     public bool[] Multitask = {true, true};
-    public Vector3[] HandVector = {Vector3.zero, Vector3.zero};
-    Vector3[] prevHandVectors = {Vector3.zero, Vector3.zero};
+    public Vector3[] HandVector = {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero}; // rPos, rRot, lPos, lRot
+    Vector3[] prevHandVectors = {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
 
     public InputActionProperty[] TriggerDet;
     public InputActionProperty[] GrabDet;
     public InputActionProperty[] ThumbstickDet;
 
-    GameObject[] CaughtObjects = {null, null, null, null}; // rGrab, rPinch, lGrab, lPinch
+    public GameObject[] CaughtObjects = {null, null, null, null}; // rGrab, rPinch, lGrab, lPinch
     // Hand actions
 
     string[] gpTag = {"Object_Grab", "Object_Pinch"};
@@ -68,9 +68,13 @@ public class PlayerScript : MonoBehaviour {
                 HandsVisible[sh].rotation = ActualHands[sh].rotation;
             }
 
-            if(ActualHands[sh].position != prevHandVectors[sh]){
-                HandVector[sh] = ActualHands[sh].position - prevHandVectors[sh];
-                prevHandVectors[sh] = ActualHands[sh].position;
+            if(ActualHands[sh].position != prevHandVectors[sh*2]){
+                HandVector[sh*2] = ActualHands[sh].position - prevHandVectors[sh*2];
+                prevHandVectors[sh*2] = ActualHands[sh].position;
+            }
+            if(ActualHands[sh].eulerAngles != prevHandVectors[sh*2+1]){
+                HandVector[sh*2+1] = ActualHands[sh].eulerAngles - prevHandVectors[sh*2+1];
+                prevHandVectors[sh*2+1] = ActualHands[sh].eulerAngles;
             }
             
             if(HandPinch[sh] > 0.8f && !hasPinched[sh]) { Catch(sh, 1, false); hasPinched[sh] = true; }
@@ -83,21 +87,21 @@ public class PlayerScript : MonoBehaviour {
                 GrabPoint gp = CaughtObjects[iv].GetComponent<GrabPoint>();
                 gp.inhPinch = HandPinch[sh];
                 gp.inchGrab = HandGrab[sh];
-                gp.HandVector = HandVector[sh];
+                gp.HandVector = new[]{ HandVector[sh*2], HandVector[sh*2 + 1] };
                 if(!gp.isActive || (gp.tag == "Object_Grab" && gp.inchGrab < 0.1f) || (gp.tag == "Object_Pinch" && gp.inhPinch < 0.1f) ) Catch(sh, iv%2, true);
             }
         }
     }
 
-    void Catch(int Hand, int GP, bool LetGo){
+    public void Catch(int Hand, int GP, bool LetGo){
         if(!LetGo && Multitask[Hand] && !CaughtObjects[Hand*2 + GP]){
             GameObject[] getObjects = GameObject.FindGameObjectsWithTag(gpTag[GP]);
             float nearest = Mathf.Infinity;
             GameObject potential = null;
             for(int po = 0; po < getObjects.Length; po++){
                 GrabPoint tGP = getObjects[po].GetComponent<GrabPoint>();
-                float dist = Vector3.Distance(ActualHands[Hand].position, getObjects[po].transform.position);
-                if(dist < tGP.GrabDistance && dist <= nearest && tGP.checkForGrab()) {
+                float dist = tGP.checkForDist(ActualHands[Hand].position);
+                if(dist < tGP.GrabDistance && dist <= nearest && tGP.checkForGrab(ActualHands[Hand].position)) {
                     potential = getObjects[po];
                     nearest = dist;
                 }
@@ -109,8 +113,6 @@ public class PlayerScript : MonoBehaviour {
             }
         } else if (LetGo && CaughtObjects[Hand*2 + GP]) {
             CaughtObjects[Hand*2 + GP].GetComponent<GrabPoint>().Drop();
-            CaughtObjects[Hand*2 + GP] = null;
-            Multitask[Hand] = true;
         }
     }
 

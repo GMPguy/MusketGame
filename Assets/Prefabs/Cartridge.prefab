@@ -286,6 +286,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 98afacaa7fe8c744488ced30e8c81896, type: 3}
   Powder: {fileID: 6754938167978343208}
   Spent: {fileID: 5068607765084194121}
+  Lifetime: 10000
+  PowderGrams: 0
+  Ripped: 0
   Head: {fileID: 0}
   Sip: {fileID: 5834063896900823067}
 --- !u!1 &4074181076126635903

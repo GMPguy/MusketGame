@@ -7,22 +7,33 @@ public class GrabPoint : MonoBehaviour {
     public bool isActive = true;
     public float GrabDistance = 1f;
     public bool MultiTask = false;
+    int GP = -1;
 
     public float inhPinch, inchGrab = 0f;
-    public Vector3 HandVector;
+    public Vector3[] HandVector;
     public int GrabStatus = 0;
     public bool Changed = false;
     public Transform Hand;
     public int HandIndex;
     public PlayerScript Master;
 
-    public bool checkForGrab(){
-        if (Hand == null && GrabStatus == 0) return true;
+    void Start(){
+        HandVector = new[]{Vector3.zero, Vector3.zero};
+        if(this.tag == "Object_Grab") GP = 0;
+        else if(this.tag == "Object_Pinch") GP = 1;
+    }
+
+    public bool checkForGrab(Vector3 tPos){
+        if (Hand == null && GrabStatus == 0 && checkForDist(tPos) <= GrabDistance) return true;
         else return false;
     }
 
+    public float checkForDist(Vector3 tPos){
+        return Vector3.Distance(this.transform.position, tPos);
+    }
+
     public void Grab(Transform newHands, int handIndex){
-        if (checkForGrab()){
+        if (checkForGrab(this.transform.position)){
             Hand = newHands;
             HandIndex = handIndex;
             Master = Hand.parent.parent.GetComponent<PlayerScript>();
@@ -32,7 +43,13 @@ public class GrabPoint : MonoBehaviour {
     }
 
     public void Drop(){
-        Hand = null; GrabStatus = 0; Changed = true;
+        if(GrabStatus == 1){
+            Master.CaughtObjects[HandIndex*2 + GP] = null;
+            Master.Multitask[HandIndex] = true;
+            Hand = null; 
+            GrabStatus = 0; 
+            Changed = true;
+        }
     }
 
 }
