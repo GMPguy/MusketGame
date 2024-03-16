@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GrabPoint : MonoBehaviour {
 
+    public ItemScript isItem;
     public bool isActive = true;
     public float GrabDistance = 1f;
     public bool MultiTask = false;
@@ -39,6 +40,7 @@ public class GrabPoint : MonoBehaviour {
             Master = Hand.parent.parent.GetComponent<PlayerScript>();
             GrabStatus = 1; 
             Changed = true;
+            if(isItem) isItem.HeldBy = Master;
         }
     }
 
@@ -49,6 +51,7 @@ public class GrabPoint : MonoBehaviour {
             Hand = null; 
             GrabStatus = 0; 
             Changed = true;
+            if(isItem) isItem.HeldBy = null;
         }
     }
 

@@ -44,12 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b2c613f1986a446b9f6043a14d4c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isItem: {fileID: 556752514296545229}
   isActive: 1
   GrabDistance: 0.2
   MultiTask: 0
   inhPinch: 0
   inchGrab: 0
-  HandVector: {x: 0, y: 0, z: 0}
+  HandVector:
+  - {x: -9.552308e-33, y: 7.89e-43, z: 0.000044153443}
+  - {x: 0.00000016799171, y: -4.6151974e+19, z: 7.89e-43}
+  - {x: 4.6e-44, y: 0.00000004223257, z: -9.552308e-33}
   GrabStatus: 0
   Changed: 0
   Hand: {fileID: 0}
@@ -227,12 +231,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b2c613f1986a446b9f6043a14d4c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isItem: {fileID: 556752514296545229}
   isActive: 1
   GrabDistance: 0.2
   MultiTask: 0
   inhPinch: 0
   inchGrab: 0
-  HandVector: {x: 0, y: 0, z: 0}
+  HandVector:
+  - {x: 0.000000013167257, y: 0.00000004126049, z: 0.000044153443}
+  - {x: 0.00000016799171, y: 2.1886237e+23, z: 0.000000041953363}
+  - {x: 1.3295888e+22, y: 0.00000004223257, z: 0}
   GrabStatus: 0
   Changed: 0
   Hand: {fileID: 0}
@@ -343,6 +351,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5f8d084a853f8ad42958ceaffd6dc932, type: 3}
   - {fileID: 8300000, guid: 18b9935efd380f54bab23ffcc7ac8da2, type: 3}
   - {fileID: 8300000, guid: e343c83dd74d1fe46a7a047631dc493f, type: 3}
+  HeldBy: {fileID: 0}
   Handle: {fileID: 556752513386396038}
   Holder: {fileID: 556752514873681090}
   trigger: {fileID: 1780862344466843893}
@@ -386,7 +395,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!1 &2401416215706276547
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,12 +492,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b2c613f1986a446b9f6043a14d4c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.2
   MultiTask: 0
   inhPinch: 0
   inchGrab: 0
-  HandVector: {x: 0, y: 0, z: 0}
+  HandVector:
+  - {x: 0.000000013167257, y: 0.00000004126049, z: 0.000044153443}
+  - {x: 0.00000016799171, y: 2.1886237e+23, z: 0.000000041953363}
+  - {x: 1.3295888e+22, y: 0.00000004223257, z: 1.076e-42}
   GrabStatus: 0
   Changed: 0
   Hand: {fileID: 0}
@@ -5603,12 +5616,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b2c613f1986a446b9f6043a14d4c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.2
   MultiTask: 0
   inhPinch: 0
   inchGrab: 0
-  HandVector: {x: 0, y: 0, z: 0}
+  HandVector:
+  - {x: 0.000000013167257, y: 0.00000004126049, z: 0.000044153443}
+  - {x: 0.00000016799171, y: 2.1886237e+23, z: 0.000000041953363}
+  - {x: 1.3295888e+22, y: 0.00000004223257, z: 1.3563115e-19}
   GrabStatus: 0
   Changed: 0
   Hand: {fileID: 0}
@@ -10820,12 +10837,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b2c613f1986a446b9f6043a14d4c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 1
   MultiTask: 0
   inhPinch: 0
   inchGrab: 0
-  HandVector: {x: 0, y: 0, z: 0}
+  HandVector:
+  - {x: 0.000000013167257, y: 0.00000004126049, z: 0.000044153443}
+  - {x: 0.00000016799171, y: 2.1886237e+23, z: 0.000000041953363}
+  - {x: 1.3295888e+22, y: 0.00000004223257, z: 6.3584662e+28}
   GrabStatus: 0
   Changed: 0
   Hand: {fileID: 0}

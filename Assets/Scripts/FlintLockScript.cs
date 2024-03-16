@@ -126,21 +126,20 @@ public class FlintLockScript : ItemScript {
         if(fired <= 0f){
 
             // Cock
-            if(cock.GetComponent<GrabPoint>().GrabStatus == 1){
-                cockRot[0] = Mathf.Clamp(cockRot[0] + Vector3.Dot(this.transform.forward, cock.HandVector[0])*10f, 0f, 0.5f + (0.5f * frizzenRot[0]));
-                if(cockRot[0] < 0.1f) cockPosition = 0f;
-                else if (cockRot[0] < 0.9f) cockPosition = 0.5f;
-                else cockPosition = 1f;
-                if(prevCock != cockPosition){
-                    prevCock = cockPosition;
-                    PlayAudio("GunCock", 1f, 1, cock.transform.GetChild(0).position);
-                }
-            } else cockRot[0] = Mathf.MoveTowards(cockRot[0], cockPosition, Time.deltaTime*10f);
+            if(cock.GetComponent<GrabPoint>().GrabStatus == 1) cockRot[0] = Mathf.Clamp(cockRot[0] + Vector3.Dot(this.transform.forward, cock.HandVector[0])*10f, 0f, 0.5f + (0.5f * frizzenRot[0]));
+            else cockRot[0] = Mathf.MoveTowards(cockRot[0], Mathf.Clamp(cockPosition, 0f, 0.5f + frizzenRot[0]*0.5f), Time.deltaTime*10f);
+
+            if(cockRot[0] < 0.1f) cockPosition = 0f;
+            else if (cockRot[0] < 0.9f) cockPosition = 0.5f;
+            else cockPosition = 1f;
+            if(prevCock != cockPosition){
+                prevCock = cockPosition;
+                PlayAudio("GunCock", 1f, 0, cock.transform.GetChild(0).position);
+            }
 
             // Frizzen
-            if(frizzen.GetComponent<GrabPoint>().GrabStatus == 1){
-                frizzenRot[0] = Mathf.Clamp(frizzenRot[0] + Vector3.Dot(this.transform.forward, frizzen.HandVector[0])*10f, 0f, 1f);
-            } else if (frizzenRot[0] < 0.9f) frizzenRot[0] = Mathf.MoveTowards(frizzenRot[0], 0f, Time.deltaTime*10f);
+            if(frizzen.GetComponent<GrabPoint>().GrabStatus == 1) frizzenRot[0] = Mathf.Clamp(frizzenRot[0] + Vector3.Dot(this.transform.forward, frizzen.HandVector[0])*10f, 0f, 1f);
+            else if (frizzenRot[0] < 0.9f) frizzenRot[0] = Mathf.MoveTowards(frizzenRot[0], 0f, Time.deltaTime*10f);
 
             if((frizzenRot[0] <= 0f && prevFrizzen != 0f) || (frizzenRot[0] >= 1f && prevFrizzen != 1f)){
                 PlayAudio("GunFrissen", 1f, 0, cock.transform.GetChild(0).position);
@@ -157,9 +156,9 @@ public class FlintLockScript : ItemScript {
             if(heat > 0f){
                 heat -= Time.deltaTime;
             } else if(heat <= 0f && ignite != 0){
-                ignite = 0;
-                FireGun();
                 cock.isActive = frizzen.isActive = true;
+                if(ignite == 1) FireGun();
+                ignite = 0;
             }
 
         } else {
@@ -205,7 +204,7 @@ public class FlintLockScript : ItemScript {
     }
 
     public bool LoadBullet(string What, Vector3 Where, Vector3 Rot, float How = 0f){
-        if(insertedBullet == "" && rrState == 0 && Vector3.Distance(Where, Slimend.position) < 1f){
+        if(insertedBullet == "" && rrState == 0 && Vector3.Distance(Where, Slimend.position) < 0.3f){
             insertedBullet = What;
             insertBullet = 1f;
             Slimend.GetChild(0).localPosition = Vector3.zero;

@@ -58,7 +58,7 @@ public class CartridgeScript : ItemScript {
                 Ray Checkpowder = new (Sip.transform.position, Sip.transform.forward);
                 if(Physics.Raycast(Checkpowder, out RaycastHit Hitpowder, 0.3f) && Hitpowder.collider.name == "MusketBody"){
                     FlintLockScript fs = Hitpowder.collider.transform.parent.GetComponent<FlintLockScript>();
-                    if (Vector3.Distance(Hitpowder.point, fs.powder.position) < 0.05f) fs.loadedPowder[0] = Mathf.Clamp(fs.loadedPowder[0] + sipPower, 0f, 1f);
+                    if (Vector3.Distance(Hitpowder.point, fs.powder.position) < 0.05f && fs.frizzenRot[0] > 0f) fs.loadedPowder[0] = Mathf.Clamp(fs.loadedPowder[0] + sipPower, 0f, 1f);
                 }
             } else {
                 Sip.Stop();

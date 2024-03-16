@@ -6,9 +6,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour {
 
-    // References
+    // Movement
     public Transform Head;
-    // References
+    public Vector3 MovementVector; 
+    Vector3 prevPos;
+    readonly float Speed = 2f;
+    readonly float RotationSpeed = 90f;
+    // Movement
 
     // Hand visuals
     public Transform[] ActualHands;
@@ -39,6 +43,7 @@ public class PlayerScript : MonoBehaviour {
         HandsAnims[0] = HandsVisible[0].GetComponent<Animator>();
         HandsAnims[1] = HandsVisible[1].GetComponent<Animator>();
         for(int sh = 0; sh <= 1; sh++){
+            ThumbstickDet[sh].action.Enable();
             TriggerDet[sh].action.Enable();
             GrabDet[sh].action.Enable();
         }
@@ -50,7 +55,15 @@ public class PlayerScript : MonoBehaviour {
     }
 
     void Movement(){
-        this.transform.position += Head.transform.forward * ThumbstickDet[0].action.ReadValue<Vector3>().y + Head.transform.right * ThumbstickDet[0].action.ReadValue<Vector3>().x;
+        Vector2[] thumbs = new []{ThumbstickDet[0].action.ReadValue<Vector2>(), ThumbstickDet[1].action.ReadValue<Vector2>()};
+        Vector3 normalFoward = new Vector3(Head.forward.x, 0f, Head.forward.z);
+        Vector3 normalRight = new Vector3(Head.right.x, 0f, Head.right.z);
+
+        if(thumbs[0].magnitude > 0.5f) this.transform.position += (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
+        if(thumbs[1].magnitude > 0.5f) this.transform.Rotate(Vector3.up * thumbs[1].x *  (Time.deltaTime * RotationSpeed));
+
+        MovementVector = this.transform.position - prevPos;
+        prevPos = this.transform.position;
     }
 
     void HandBehaviour() {

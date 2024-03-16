@@ -1617,7 +1617,7 @@ MonoBehaviour:
     m_Action:
       m_Name: Element 0
       m_Type: 0
-      m_ExpectedControlType: 
+      m_ExpectedControlType: Vector2
       m_Id: beeb4759-29cf-458d-b232-c5c1e537b92b
       m_Processors: 
       m_Interactions: 
@@ -1636,7 +1636,7 @@ MonoBehaviour:
     m_Action:
       m_Name: Element 1
       m_Type: 0
-      m_ExpectedControlType: 
+      m_ExpectedControlType: Vector2
       m_Id: b038f564-b32c-4b24-99ec-848a00d10dd9
       m_Processors: 
       m_Interactions: 

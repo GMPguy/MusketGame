@@ -15,9 +15,11 @@ public class ItemScript : MonoBehaviour {
     int SoundID;
     protected float[] touching = {1f, 0f}; // touching factor, if is touchin
     bool activated = false;
+    public PlayerScript HeldBy;
 
     void Start () {
         Rig = this.GetComponent<Rigidbody>();
+        if(simpleHandle) simpleHandle.isItem = this;
         ItemStart();
     }
 
@@ -69,7 +71,7 @@ public class ItemScript : MonoBehaviour {
     }
 
     void OnCollisionStay(Collision collision){
-        touching = new float[]{0.1f, 0.2f};
+        touching = new float[]{0.01f, 0.2f};
         ItemCollisionStay(collision);
     }
 
@@ -85,12 +87,14 @@ public class ItemScript : MonoBehaviour {
     protected void setPos(bool Activate, Vector3[] targets = default){
         activated = Activate;
         if(Activate){
+            if(HeldBy) this.transform.parent = HeldBy.transform;
             Rig.useGravity = false;
-            Rig.velocity = Rig.angularVelocity = Vector3.zero;
+            Rig.angularVelocity = Rig.velocity = Vector3.zero;
             this.transform.position = Vector3.Lerp(this.transform.position, targets[0], Time.deltaTime*10f*touching[0]);
             if(targets.Length == 3) this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(targets[1] - this.transform.position, targets[2]), Time.deltaTime*10f* touching[0]);
             else this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(targets[1]), Time.deltaTime*10f* touching[0]);
         } else {
+            if(this.transform.parent != null) this.transform.parent = null;
             Rig.useGravity = true;
         }
     }
