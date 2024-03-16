@@ -37,9 +37,14 @@ public class PlayerScript : MonoBehaviour {
     public GameObject[] CaughtObjects = {null, null, null, null}; // rGrab, rPinch, lGrab, lPinch
     // Hand actions
 
-    string[] gpTag = {"Object_Grab", "Object_Pinch"};
+    // Misc
+    public Rigidbody Rig;
+    // Misc
+
+    readonly string[] gpTag = {"Object_Grab", "Object_Pinch"};
 
     void Start(){
+        Rig = this.GetComponent<Rigidbody>();
         HandsAnims[0] = HandsVisible[0].GetComponent<Animator>();
         HandsAnims[1] = HandsVisible[1].GetComponent<Animator>();
         for(int sh = 0; sh <= 1; sh++){

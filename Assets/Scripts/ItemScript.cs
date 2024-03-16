@@ -90,9 +90,9 @@ public class ItemScript : MonoBehaviour {
             if(HeldBy) this.transform.parent = HeldBy.transform;
             Rig.useGravity = false;
             Rig.angularVelocity = Rig.velocity = Vector3.zero;
-            this.transform.position = Vector3.Lerp(this.transform.position, targets[0], Time.deltaTime*10f*touching[0]);
-            if(targets.Length == 3) this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(targets[1] - this.transform.position, targets[2]), Time.deltaTime*10f* touching[0]);
-            else this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(targets[1]), Time.deltaTime*10f* touching[0]);
+            this.transform.position = Vector3.Lerp(this.transform.position, this.transform.position + Vector3.ClampMagnitude(targets[0] - this.transform.position, touching[0]), Time.deltaTime*10f);
+            if(targets.Length == 3) this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(targets[1] - this.transform.position, targets[2]), Time.deltaTime*10f*Mathf.Clamp(touching[0]-0.5f, 0.01f, 1f));
+            else this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.Euler(targets[1]), Time.deltaTime*10f*Mathf.Clamp(touching[0]-0.5f, 0.01f, 1f));
         } else {
             if(this.transform.parent != null) this.transform.parent = null;
             Rig.useGravity = true;

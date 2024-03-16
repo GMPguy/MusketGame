@@ -51,7 +51,6 @@ public class GrabPoint : MonoBehaviour {
             Hand = null; 
             GrabStatus = 0; 
             Changed = true;
-            if(isItem) isItem.HeldBy = null;
         }
     }
 
