@@ -7,6 +7,8 @@ public class GrabPoint : MonoBehaviour {
     public ItemScript isItem;
     public bool isActive = true;
     public float GrabDistance = 1f;
+    public Vector3 GrabOffset;
+    public Collider GrabCollider;
     public bool MultiTask = false;
     public bool Switchable = false;
     int GP = -1;
@@ -31,7 +33,8 @@ public class GrabPoint : MonoBehaviour {
     }
 
     public float checkForDist(Vector3 tPos){
-        return Vector3.Distance(this.transform.position, tPos);
+        if(!GrabCollider) return Vector3.Distance(this.transform.position /*+ this.transform.TransformPoint(GrabOffset)*/, tPos);
+        else return Vector3.Distance(GrabCollider.ClosestPoint(tPos), tPos);
     }
 
     public void Grab(Transform newHands, int handIndex){
@@ -51,15 +54,16 @@ public class GrabPoint : MonoBehaviour {
         if(GrabStatus == 1){
             Master.CaughtObjects[HandIndex*2 + GP] = null;
             Master.Multitask[HandIndex] = true;
+            Master = null;
             Hand = null; 
             GrabStatus = 0; 
             Changed = true;
         }
     }
 
-    public void Switch(Transform otherHand){
-        HandIndex = (HandIndex+1)%2;
+    public void Switch(Transform otherHand, int toHand){
         Drop();
+        HandIndex = toHand;
         Grab(otherHand, HandIndex);
     }
 

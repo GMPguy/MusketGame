@@ -65,7 +65,7 @@ public class PlayerScript : MonoBehaviour {
 
         switch(way){
             case "Ladder":
-                this.transform.position += isClimbing.HandVector[0];
+                this.transform.position -= isClimbing.HandVector[0];
                 break;
             default:
                 Vector2[] thumbs = new []{ThumbstickDet[0].action.ReadValue<Vector2>(), ThumbstickDet[1].action.ReadValue<Vector2>()};
@@ -95,9 +95,9 @@ public class PlayerScript : MonoBehaviour {
                 HandsVisible[sh].rotation = ActualHands[sh].rotation;
             }
 
-            if(ActualHands[sh].position != prevHandVectors[sh*2]){
-                HandVector[sh*2] = ActualHands[sh].position - prevHandVectors[sh*2];
-                prevHandVectors[sh*2] = ActualHands[sh].position;
+            if(ActualHands[sh].localPosition != prevHandVectors[sh*2]){
+                HandVector[sh*2] = ActualHands[sh].localPosition - prevHandVectors[sh*2];
+                prevHandVectors[sh*2] = ActualHands[sh].localPosition;
             }
             if(ActualHands[sh].eulerAngles != prevHandVectors[sh*2+1]){
                 HandVector[sh*2+1] = ActualHands[sh].eulerAngles - prevHandVectors[sh*2+1];
@@ -121,12 +121,12 @@ public class PlayerScript : MonoBehaviour {
     }
 
     public void Catch(int Hand, int GP, bool LetGo){
-        if(!LetGo && Multitask[Hand] && !CaughtObjects[Hand*2 + GP]){
-            if(CaughtObjects[(Hand+1)%2*2 + GP] && CaughtObjects[(Hand+1)%2*2 + GP].GetComponent<GrabPoint>().checkForGrab(ActualHands[Hand].position)){
 
-                print("It's close enough, you may switch!");
-                GrabPoint switcher = CaughtObjects[(Hand+1)%2*2 + GP].GetComponent<GrabPoint>();
-                switcher.Switch(ActualHands[Hand].transform);
+        if(!LetGo && Multitask[Hand] && !CaughtObjects[Hand*2 + GP]){
+
+            if(CaughtObjects[(Hand+1)%2*2 + GP] && CaughtObjects[(Hand+1)%2*2 + GP].GetComponent<GrabPoint>().checkForDist(ActualHands[Hand].position) < 0.1f){
+
+                CaughtObjects[(Hand+1)%2*2 + GP].GetComponent<GrabPoint>().Switch(ActualHands[Hand].transform, Hand*2+GP);
 
             } else {
 
@@ -136,7 +136,7 @@ public class PlayerScript : MonoBehaviour {
                 for(int po = 0; po < getObjects.Length; po++){
                     GrabPoint tGP = getObjects[po].GetComponent<GrabPoint>();
                     float dist = tGP.checkForDist(ActualHands[Hand].position);
-                    if(dist < tGP.GrabDistance && dist <= nearest && tGP.checkForGrab(ActualHands[Hand].position)) {
+                    if(dist <= tGP.GrabDistance && dist <= nearest && tGP.checkForGrab(ActualHands[Hand].position)) {
                         potential = getObjects[po];
                         nearest = dist;
                     }
