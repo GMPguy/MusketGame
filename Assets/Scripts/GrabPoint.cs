@@ -8,6 +8,7 @@ public class GrabPoint : MonoBehaviour {
     public bool isActive = true;
     public float GrabDistance = 1f;
     public bool MultiTask = false;
+    public bool Switchable = false;
     int GP = -1;
 
     public float inhPinch, inchGrab = 0f;
@@ -36,8 +37,10 @@ public class GrabPoint : MonoBehaviour {
     public void Grab(Transform newHands, int handIndex){
         if (checkForGrab(this.transform.position)){
             Hand = newHands;
-            HandIndex = handIndex;
+            HandIndex = handIndex/2;
             Master = Hand.parent.parent.GetComponent<PlayerScript>();
+            Master.Multitask[handIndex/2] = MultiTask;
+            Master.CaughtObjects[handIndex] = this.gameObject;
             GrabStatus = 1; 
             Changed = true;
             if(isItem) isItem.HeldBy = Master;
@@ -52,6 +55,12 @@ public class GrabPoint : MonoBehaviour {
             GrabStatus = 0; 
             Changed = true;
         }
+    }
+
+    public void Switch(Transform otherHand){
+        HandIndex = (HandIndex+1)%2;
+        Drop();
+        Grab(otherHand, HandIndex);
     }
 
 }

@@ -284,6 +284,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1f0bf596f48d857488d5076a6f708219, type: 3}
   - {fileID: 8300000, guid: 35f92b33f6fdba34c8a3a148cf599387, type: 3}
   - {fileID: 8300000, guid: 98afacaa7fe8c744488ced30e8c81896, type: 3}
+  HeldBy: {fileID: 0}
   Powder: {fileID: 6754938167978343208}
   Spent: {fileID: 5068607765084194121}
   Lifetime: 10000
@@ -304,7 +305,7 @@ GameObject:
   - component: {fileID: 408873877696700432}
   - component: {fileID: 3769286140071410608}
   - component: {fileID: 631338474473079090}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cartridge
   m_TagString: Object_Grab
   m_Icon: {fileID: 0}
@@ -402,12 +403,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b2c613f1986a446b9f6043a14d4c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.1
   MultiTask: 1
+  Switchable: 1
   inhPinch: 0
   inchGrab: 0
-  HandVector: {x: 0, y: 0, z: 0}
+  HandVector:
+  - {x: 0.000000013167257, y: 0.00000004126049, z: 0.000044153443}
+  - {x: 0.00000016799171, y: 2.1886237e+23, z: 0.000000041953363}
+  - {x: 1.3295888e+22, y: 0.00000004223257, z: 1.076e-42}
   GrabStatus: 0
   Changed: 0
   Hand: {fileID: 0}

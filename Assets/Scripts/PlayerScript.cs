@@ -38,6 +38,7 @@ public class PlayerScript : MonoBehaviour {
     // Hand actions
 
     // Misc
+    public LadderScript isClimbing;
     public Rigidbody Rig;
     // Misc
 
@@ -55,17 +56,25 @@ public class PlayerScript : MonoBehaviour {
     }
 
     void Update(){
-        Movement();
+        if(isClimbing != null) Movement("Ladder");
+        else Movement();
         HandBehaviour();
     }
 
-    void Movement(){
-        Vector2[] thumbs = new []{ThumbstickDet[0].action.ReadValue<Vector2>(), ThumbstickDet[1].action.ReadValue<Vector2>()};
-        Vector3 normalFoward = new Vector3(Head.forward.x, 0f, Head.forward.z);
-        Vector3 normalRight = new Vector3(Head.right.x, 0f, Head.right.z);
+    void Movement(string way = ""){
 
-        if(thumbs[0].magnitude > 0.5f) this.transform.position += (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
-        if(thumbs[1].magnitude > 0.5f) this.transform.Rotate(Vector3.up * thumbs[1].x *  (Time.deltaTime * RotationSpeed));
+        switch(way){
+            case "Ladder":
+                this.transform.position += isClimbing.HandVector[0];
+                break;
+            default:
+                Vector2[] thumbs = new []{ThumbstickDet[0].action.ReadValue<Vector2>(), ThumbstickDet[1].action.ReadValue<Vector2>()};
+                Vector3 normalFoward = new Vector3(Head.forward.x, 0f, Head.forward.z);
+                Vector3 normalRight = new Vector3(Head.right.x, 0f, Head.right.z);
+                if(thumbs[0].magnitude > 0.5f) this.transform.position += (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
+                if(thumbs[1].magnitude > 0.5f) this.transform.Rotate(Vector3.up * thumbs[1].x *  (Time.deltaTime * RotationSpeed));
+                break;
+        }
 
         MovementVector = this.transform.position - prevPos;
         prevPos = this.transform.position;
@@ -113,22 +122,29 @@ public class PlayerScript : MonoBehaviour {
 
     public void Catch(int Hand, int GP, bool LetGo){
         if(!LetGo && Multitask[Hand] && !CaughtObjects[Hand*2 + GP]){
-            GameObject[] getObjects = GameObject.FindGameObjectsWithTag(gpTag[GP]);
-            float nearest = Mathf.Infinity;
-            GameObject potential = null;
-            for(int po = 0; po < getObjects.Length; po++){
-                GrabPoint tGP = getObjects[po].GetComponent<GrabPoint>();
-                float dist = tGP.checkForDist(ActualHands[Hand].position);
-                if(dist < tGP.GrabDistance && dist <= nearest && tGP.checkForGrab(ActualHands[Hand].position)) {
-                    potential = getObjects[po];
-                    nearest = dist;
+            if(CaughtObjects[(Hand+1)%2*2 + GP] && CaughtObjects[(Hand+1)%2*2 + GP].GetComponent<GrabPoint>().checkForGrab(ActualHands[Hand].position)){
+
+                print("It's close enough, you may switch!");
+                GrabPoint switcher = CaughtObjects[(Hand+1)%2*2 + GP].GetComponent<GrabPoint>();
+                switcher.Switch(ActualHands[Hand].transform);
+
+            } else {
+
+                GameObject[] getObjects = GameObject.FindGameObjectsWithTag(gpTag[GP]);
+                float nearest = Mathf.Infinity;
+                GameObject potential = null;
+                for(int po = 0; po < getObjects.Length; po++){
+                    GrabPoint tGP = getObjects[po].GetComponent<GrabPoint>();
+                    float dist = tGP.checkForDist(ActualHands[Hand].position);
+                    if(dist < tGP.GrabDistance && dist <= nearest && tGP.checkForGrab(ActualHands[Hand].position)) {
+                        potential = getObjects[po];
+                        nearest = dist;
+                    }
                 }
+                if(potential) potential.GetComponent<GrabPoint>().Grab(ActualHands[Hand].transform, Hand*2 + GP);
+
             }
-            if(potential){
-                CaughtObjects[Hand*2 + GP] = potential;
-                Multitask[Hand] = potential.GetComponent<GrabPoint>().MultiTask;
-                potential.GetComponent<GrabPoint>().Grab(ActualHands[Hand].transform, Hand);
-            }
+
         } else if (LetGo && CaughtObjects[Hand*2 + GP]) {
             CaughtObjects[Hand*2 + GP].GetComponent<GrabPoint>().Drop();
         }

@@ -48,6 +48,7 @@ MonoBehaviour:
   isActive: 1
   GrabDistance: 0.2
   MultiTask: 0
+  Switchable: 1
   inhPinch: 0
   inchGrab: 0
   HandVector:
@@ -235,6 +236,7 @@ MonoBehaviour:
   isActive: 1
   GrabDistance: 0.2
   MultiTask: 0
+  Switchable: 1
   inhPinch: 0
   inchGrab: 0
   HandVector:
@@ -496,6 +498,7 @@ MonoBehaviour:
   isActive: 1
   GrabDistance: 0.2
   MultiTask: 0
+  Switchable: 0
   inhPinch: 0
   inchGrab: 0
   HandVector:
@@ -5620,6 +5623,7 @@ MonoBehaviour:
   isActive: 1
   GrabDistance: 0.2
   MultiTask: 0
+  Switchable: 0
   inhPinch: 0
   inchGrab: 0
   HandVector:
@@ -5758,7 +5762,7 @@ GameObject:
   - component: {fileID: 9183339662701135839}
   - component: {fileID: 363036201707778156}
   - component: {fileID: 1213969118676148342}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MusketBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10841,6 +10845,7 @@ MonoBehaviour:
   isActive: 1
   GrabDistance: 1
   MultiTask: 0
+  Switchable: 0
   inhPinch: 0
   inchGrab: 0
   HandVector:
