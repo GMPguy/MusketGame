@@ -4571,6 +4571,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  MovementLayerMask:
+    serializedVersion: 2
+    m_Bits: 55
   isClimbing: {fileID: 0}
   Rig: {fileID: 0}
 --- !u!54 &1795135800

@@ -38,6 +38,7 @@ public class PlayerScript : MonoBehaviour {
     // Hand actions
 
     // Misc
+    public LayerMask MovementLayerMask;
     public LadderScript isClimbing;
     public Rigidbody Rig;
     // Misc
@@ -91,7 +92,12 @@ public class PlayerScript : MonoBehaviour {
                 Vector2[] thumbs = new []{ThumbstickDet[0].action.ReadValue<Vector2>(), ThumbstickDet[1].action.ReadValue<Vector2>()};
                 Vector3 normalFoward = new Vector3(Head.forward.x, 0f, Head.forward.z);
                 Vector3 normalRight = new Vector3(Head.right.x, 0f, Head.right.z);
-                if(thumbs[0].magnitude > 0.5f) this.transform.position += (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
+                if(thumbs[0].magnitude > 0.5f) {
+                    Vector3 dmv = (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
+                    Collider[] pc =Physics.OverlapCapsule(this.transform.position+(Vector3.up*0.25f)+dmv, Head.transform.position-(Vector3.up*0.25f)+dmv, 0.1f, MovementLayerMask);
+                    if(pc.Length > 0) print(pc[0].name);
+                    if(pc.Length <= 0) this.transform.position += dmv;
+                }
                 if(thumbs[1].magnitude > 0.5f) this.transform.Rotate(Vector3.up * thumbs[1].x *  (Time.deltaTime * RotationSpeed));
                 break;
         }
