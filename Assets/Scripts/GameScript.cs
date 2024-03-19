@@ -7,5 +7,6 @@ public class GameScript : MonoBehaviour {
 
     void Start(){
         terrain.detailObjectDistance = 2000;
+        Physics.IgnoreLayerCollision(3, 6, true);
     }
 }

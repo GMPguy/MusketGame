@@ -47,8 +47,13 @@ MonoBehaviour:
   isItem: {fileID: 556752514296545229}
   isActive: 1
   GrabDistance: 0.2
+  GrabOffset: {x: 0, y: 0, z: 0}
+  GrabCollider: {fileID: 0}
   MultiTask: 0
   Switchable: 1
+  GrabAudio: {fileID: 0}
+  GrabAudioClips:
+  - {fileID: 8300000, guid: 3c7f3f195b165ee46b014b03d67dc099, type: 3}
   inhPinch: 0
   inchGrab: 0
   HandVector:
@@ -235,8 +240,13 @@ MonoBehaviour:
   isItem: {fileID: 556752514296545229}
   isActive: 1
   GrabDistance: 0.2
+  GrabOffset: {x: 0, y: 0, z: 0}
+  GrabCollider: {fileID: 0}
   MultiTask: 0
   Switchable: 1
+  GrabAudio: {fileID: 0}
+  GrabAudioClips:
+  - {fileID: 8300000, guid: 3c7f3f195b165ee46b014b03d67dc099, type: 3}
   inhPinch: 0
   inchGrab: 0
   HandVector:
@@ -497,8 +507,12 @@ MonoBehaviour:
   isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.2
+  GrabOffset: {x: 0, y: 0, z: 0}
+  GrabCollider: {fileID: 0}
   MultiTask: 0
   Switchable: 0
+  GrabAudio: {fileID: 0}
+  GrabAudioClips: []
   inhPinch: 0
   inchGrab: 0
   HandVector:
@@ -5622,8 +5636,12 @@ MonoBehaviour:
   isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.2
+  GrabOffset: {x: 0, y: 0, z: 0}
+  GrabCollider: {fileID: 0}
   MultiTask: 0
   Switchable: 0
+  GrabAudio: {fileID: 0}
+  GrabAudioClips: []
   inhPinch: 0
   inchGrab: 0
   HandVector:
@@ -10844,8 +10862,12 @@ MonoBehaviour:
   isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 1
+  GrabOffset: {x: 0, y: 0, z: 0}
+  GrabCollider: {fileID: 0}
   MultiTask: 0
   Switchable: 0
+  GrabAudio: {fileID: 0}
+  GrabAudioClips: []
   inhPinch: 0
   inchGrab: 0
   HandVector:

@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour {
     // Movement
     public Transform Head;
     public Vector3 MovementVector; 
-    Vector3 prevPos;
+    Vector3 prevPos, prevHead;
     readonly float Speed = 2f;
     readonly float RotationSpeed = 90f;
     // Movement
@@ -27,8 +27,8 @@ public class PlayerScript : MonoBehaviour {
     public float[] HandGrab = {0f, 0f};
     public bool[] hasGrabbed = {false, false};
     public bool[] Multitask = {true, true};
-    public Vector3[] HandVector = {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero}; // rPos, rRot, lPos, lRot
-    Vector3[] prevHandVectors = {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
+    public Vector3[] HandVector = {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero}; // rPos, rLocPos, rRot, lPos, lLocPos, lRot
+    Vector3[] prevHandVectors = {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
 
     public InputActionProperty[] TriggerDet;
     public InputActionProperty[] GrabDet;
@@ -61,13 +61,33 @@ public class PlayerScript : MonoBehaviour {
         HandBehaviour();
     }
 
-    void Movement(string way = ""){
+    void Movement(string way = "", bool isMovement = true){
 
+        if(isMovement){
+            if(prevHead != Head.position){
+                Vector3 yHead = new (Head.localPosition.x, 0f, Head.localPosition.z);
+                this.transform.position += this.transform.TransformDirection( yHead - prevHead );
+                prevHead = yHead;
+                Head.parent.localPosition = new Vector3(-Head.localPosition.x, 0f, -Head.localPosition.z);
+            }
+            MovementVector = this.transform.position - prevPos;
+            prevPos = this.transform.position;
+        }
+        
         switch(way){
+            case "RigEnable":
+                Rig.useGravity = this.GetComponent<CapsuleCollider>().enabled = true;
+                break;
+            case "RigDisable":
+                Rig.velocity = Vector3.zero;
+                Rig.useGravity = this.GetComponent<CapsuleCollider>().enabled = false;
+                break;
             case "Ladder":
-                this.transform.position -= isClimbing.HandVector[0];
+                Movement("RigDisable", false);
+                this.transform.position -= this.transform.TransformDirection(isClimbing.HandVector[1]);
                 break;
             default:
+                Movement("RigEnable", false);
                 Vector2[] thumbs = new []{ThumbstickDet[0].action.ReadValue<Vector2>(), ThumbstickDet[1].action.ReadValue<Vector2>()};
                 Vector3 normalFoward = new Vector3(Head.forward.x, 0f, Head.forward.z);
                 Vector3 normalRight = new Vector3(Head.right.x, 0f, Head.right.z);
@@ -75,9 +95,7 @@ public class PlayerScript : MonoBehaviour {
                 if(thumbs[1].magnitude > 0.5f) this.transform.Rotate(Vector3.up * thumbs[1].x *  (Time.deltaTime * RotationSpeed));
                 break;
         }
-
-        MovementVector = this.transform.position - prevPos;
-        prevPos = this.transform.position;
+        
     }
 
     void HandBehaviour() {
@@ -95,13 +113,10 @@ public class PlayerScript : MonoBehaviour {
                 HandsVisible[sh].rotation = ActualHands[sh].rotation;
             }
 
-            if(ActualHands[sh].localPosition != prevHandVectors[sh*2]){
-                HandVector[sh*2] = ActualHands[sh].localPosition - prevHandVectors[sh*2];
-                prevHandVectors[sh*2] = ActualHands[sh].localPosition;
-            }
-            if(ActualHands[sh].eulerAngles != prevHandVectors[sh*2+1]){
-                HandVector[sh*2+1] = ActualHands[sh].eulerAngles - prevHandVectors[sh*2+1];
-                prevHandVectors[sh*2+1] = ActualHands[sh].eulerAngles;
+            Vector3[] pHVref = new[] {ActualHands[sh].position, ActualHands[sh].localPosition, ActualHands[sh].eulerAngles};
+            for(int pHV = 0; pHV < 3; pHV++) if (pHVref[pHV] != prevHandVectors[sh*3+pHV]){
+                HandVector[sh*3+pHV] = pHVref[pHV] - prevHandVectors[sh*3+pHV];
+                prevHandVectors[sh*3+pHV] = pHVref[pHV];
             }
             
             if(HandPinch[sh] > 0.8f && !hasPinched[sh]) { Catch(sh, 1, false); hasPinched[sh] = true; }
@@ -114,7 +129,7 @@ public class PlayerScript : MonoBehaviour {
                 GrabPoint gp = CaughtObjects[iv].GetComponent<GrabPoint>();
                 gp.inhPinch = HandPinch[sh];
                 gp.inchGrab = HandGrab[sh];
-                gp.HandVector = new[]{ HandVector[sh*2], HandVector[sh*2 + 1] };
+                gp.HandVector = new[]{ HandVector[sh*3], HandVector[sh*3 + 1], HandVector[sh*3+2] };
                 if(!gp.isActive || (gp.tag == "Object_Grab" && gp.inchGrab < 0.1f) || (gp.tag == "Object_Pinch" && gp.inhPinch < 0.1f) ) Catch(sh, iv%2, true);
             }
         }

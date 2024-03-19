@@ -41,7 +41,7 @@ public class FlintLockScript : ItemScript {
         } else if (Holder && Holder.GrabStatus == 1){
             triggerRot[0] = 0f;
             HolderPos += Holder.HandVector[0];
-            HolderRot += Holder.HandVector[1];
+            HolderRot += Holder.HandVector[2];
             setPos(true, new[]{movePivoted(this.transform, Holder.transform.position, HolderPos), HolderRot});
             //setPos(true, new[]{movePivoted(this.transform, Holder.transform.position, Holder.Hand.position), Holder.Hand.position + Holder.Hand.forward, Holder.Hand.up});
             //this.transform.position = Vector3.Lerp(this.transform.position, adherePivot(Holder.transform.position, Holder.Hand.position), 0.5f);

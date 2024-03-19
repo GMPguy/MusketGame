@@ -11,6 +11,8 @@ public class GrabPoint : MonoBehaviour {
     public Collider GrabCollider;
     public bool MultiTask = false;
     public bool Switchable = false;
+    public AudioSource GrabAudio;
+    public AudioClip[] GrabAudioClips;
     int GP = -1;
 
     public float inhPinch, inchGrab = 0f;
@@ -25,6 +27,7 @@ public class GrabPoint : MonoBehaviour {
         HandVector = new[]{Vector3.zero, Vector3.zero};
         if(this.tag == "Object_Grab") GP = 0;
         else if(this.tag == "Object_Pinch") GP = 1;
+        if(isItem != null) GrabAudio = isItem.ItemSound;
     }
 
     public bool checkForGrab(Vector3 tPos){
@@ -47,6 +50,12 @@ public class GrabPoint : MonoBehaviour {
             GrabStatus = 1; 
             Changed = true;
             if(isItem) isItem.HeldBy = Master;
+            if(GrabAudioClips.Length > 0) {
+                GrabAudio.transform.position = Hand.position;
+                GrabAudio.clip = GrabAudioClips[(int)Random.Range(0f, GrabAudioClips.Length-.1f)];
+                GrabAudio.volume = 1f;
+                GrabAudio.Play();
+            }
         }
     }
 
