@@ -4873,7 +4873,7 @@ MonoBehaviour:
   - 152
   FireSounds:
   - {fileID: 8300000, guid: 8f9114d7c5035dd4abd531948fe68a2d, type: 3}
-  - {fileID: 8300000, guid: 42f8c9221a75fc14db23139a1400d157, type: 3}
+  - {fileID: 8300000, guid: fdbcf5cc6898ee947b072564286c0646, type: 3}
   WhoShot: {fileID: 0}
   Bullet: {fileID: 5262343037068238464}
   Smoke: {fileID: 5262343036667017227}
@@ -5143,7 +5143,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 30
+      scalar: 10
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5197,7 +5197,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.09803922}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5259,8 +5259,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 10
-      minScalar: 5
+      scalar: 5
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5841,7 +5841,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 25
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -6298,7 +6298,7 @@ ParticleSystem:
         atime0: 0
         atime1: 2891
         atime2: 65535
-        atime3: 0
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
@@ -10155,7 +10155,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
+      scalar: 2
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -10478,7 +10478,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -0.01
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -10737,7 +10737,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 1000
       minScalar: 10
       maxCurve:
         serializedVersion: 2

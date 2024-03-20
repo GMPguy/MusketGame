@@ -28,7 +28,8 @@ public class GunfireScript : MonoBehaviour {
             this.GetComponent<AudioSource>().clip = FireSounds[0];
             this.GetComponent<AudioSource>().Play();
         } else {
-            Destroy(Bullet.gameObject);
+            Bullet.localScale = Vector3.zero;
+            Lifetime = 10f;
             State = 1;
             this.GetComponent<AudioSource>().clip = FireSounds[1];
             this.GetComponent<AudioSource>().Play();
@@ -72,7 +73,7 @@ public class GunfireScript : MonoBehaviour {
                 if(Victim.GetComponent<MaterialScript>()){
                     GameObject GroundHit = Instantiate(Victim.GetComponent<MaterialScript>().HitEffect);
                     GroundHit.transform.position = hitPoints[0];
-                    GroundHit.transform.forward = -hitPoints[1];
+                    GroundHit.transform.forward = hitPoints[1];
                 } else if (Victim.GetComponent<TargetScript>()){
                     Victim.GetComponent<TargetScript>().GotHit(hitPoints[0], hitPoints[1]);
                 }

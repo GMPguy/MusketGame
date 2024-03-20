@@ -33,7 +33,7 @@ public class CartridgeScript : ItemScript {
             if(Ripped <= 0f && Head && Vector3.Distance(this.transform.position, Head.transform.position) < 0.2f){
                 Ripped = 1f;
                 Spent.SetParent(Head);
-                PlayAudio("CartridgeTear", 1f, 1, Spent.position);
+                ItemSound.PlayAudio("CartridgeTear", 1f, 1, Spent.position);
             }
         }
 
@@ -47,7 +47,7 @@ public class CartridgeScript : ItemScript {
                 bye.velocity = Head.transform.forward*Random.Range(0.5f, 5f);
                 spere.radius = 0.1f;
                 Ripped = 10f;
-                PlayAudio("CartridgeSpit", 1f, 1, Spent.position);
+                ItemSound.PlayAudio("CartridgeSpit", 1f, 1, Spent.position);
             }
 
             Powder.localScale = new Vector3(1f,1f,PowderGrams/8f);
@@ -55,7 +55,7 @@ public class CartridgeScript : ItemScript {
             if(sipAngle[0] < sipAngle[1]){
                 Sip.Play();
                 sipEmission.rateOverTime = Mathf.Lerp(200f, 100f, sipAngle[0] / sipAngle[1]);
-                PlayAudio("_CartridgePour", 1f - (sipAngle[0] / sipAngle[1]), -1);
+                ItemSound.PlayAudio("_CartridgePour", 1f - (sipAngle[0] / sipAngle[1]), -1);
                 float sipPower = Mathf.Lerp(Time.deltaTime * 7f, Time.deltaTime / 2f, sipAngle[0] / sipAngle[1]);
                 PowderGrams -= sipPower;
                 Ray Checkpowder = new (Sip.transform.position, Sip.transform.forward);
@@ -65,14 +65,14 @@ public class CartridgeScript : ItemScript {
                 }
             } else {
                 Sip.Stop();
-                if(Ripped >= 11f) PlayAudio("");
+                if(Ripped >= 11f) ItemSound.PlayAudio("");
             }
 
         } else if (PowderGrams <= 0f && simpleHandle.isActive){
             simpleHandle.isActive = false;
             Lifetime = 10f;
             Sip.Stop();
-            PlayAudio("");
+            ItemSound.PlayAudio("");
         }
     }
 

@@ -38,10 +38,15 @@ public class PlayerScript : MonoBehaviour {
     // Hand actions
 
     // Misc
+    Vector3 Footstep;
     public LayerMask MovementLayerMask;
     public LadderScript isClimbing;
     public Rigidbody Rig;
     // Misc
+
+    // Audio
+    public SoundScript PlayerAudio;
+    // Audio
 
     readonly string[] gpTag = {"Object_Grab", "Object_Pinch"};
 
@@ -98,6 +103,16 @@ public class PlayerScript : MonoBehaviour {
                     if(pc.Length <= 0) this.transform.position += dmv;
                 }
                 if(thumbs[1].magnitude > 0.5f) this.transform.Rotate(Vector3.up * thumbs[1].x *  (Time.deltaTime * RotationSpeed));
+                
+                if(Vector3.Distance(this.transform.position, Footstep) > 1f){
+                    Footstep = this.transform.position;
+                    Ray checkFS = new (this.transform.position + Vector3.up/2f, Vector3.down);
+                    if(Physics.Raycast(checkFS, out RaycastHit FShit, 0.6f, MovementLayerMask) && FShit.collider.GetComponent<MaterialScript>()){
+                        MaterialScript ms = FShit.collider.GetComponent<MaterialScript>();
+                        PlayerAudio.PlayAudio(ms.Footsteps[(int)Random.Range(0f, ms.Footsteps.Length-0.1f)].name, 1f, 0, this.transform.position);
+                        Footstep = this.transform.position;
+                    }
+                }
                 break;
         }
         

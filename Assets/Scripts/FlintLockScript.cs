@@ -80,7 +80,7 @@ public class FlintLockScript : ItemScript {
                 Rigidbody addRig = rammingRod.AddComponent<Rigidbody>();
                 rammingRod.GetComponent<BoxCollider>().isTrigger = false;
                 addRig.collisionDetectionMode = CollisionDetectionMode.Continuous;
-                addRig.velocity = this.transform.forward ;//* Random.Range(1f, 10f);
+                addRig.velocity = this.transform.forward * Random.Range(1f, 10f);
             }
             if(rammingRod.GrabStatus == 1){
                 rrState = 3;
@@ -108,7 +108,7 @@ public class FlintLockScript : ItemScript {
                     if(rrPos[0] > rrPos[1]){
                         prevRR = new[]{rammingRod.transform.localPosition, rammingRod.transform.localEulerAngles};
                         rrPos[0] = 0f;
-                        PlayAudio("GunRammingRod2", 1f, 1, rammingRod.transform.position);
+                        ItemSound.PlayAudio("GunRammingRod2", 1f, 1, rammingRod.transform.position);
                         if(rrState == 0) rrState = 1;
                         else if (rrState == 2) rrState = 3;
                     }
@@ -120,18 +120,18 @@ public class FlintLockScript : ItemScript {
                 }
                 if(rrpVector != 0f) {
                     if(rrPos[0] > 0f) {
-                        if(rrPos[0] > 0.1f) PlayAudio("_GunRammingRod", Mathf.Clamp(Mathf.Abs(rrpVector*10f), 0f, 1f), -1, rammingRod.transform.position);
+                        if(rrPos[0] > 0.1f) ItemSound.PlayAudio("_GunRammingRod", Mathf.Clamp(Mathf.Abs(rrpVector*10f), 0f, 1f), -1, rammingRod.transform.position);
                         if(rrState == 2){
                             insertBullet = Mathf.Clamp(insertBullet, 0f, rrPos[0]/rrPos[1]);
                             Slimend.GetChild(0).localPosition = Vector3.back * (1f-insertBullet) * rrPos[1];
                         }
                     } else if (rrState == 2) {
                         rrPos[0] = 0.1f;
-                        PlayAudio("GunRammingRod3", 1f, 1, rammingRod.transform.position);
+                        ItemSound.PlayAudio("GunRammingRod3", 1f, 1, rammingRod.transform.position);
                         rammingRod.Drop();
                     }
                 } else if (ItemSound.clip && ItemSound.clip.name == "GunRammingRod"){
-                    PlayAudio("");
+                    ItemSound.PlayAudio("");
                 }
             } else {
                 rrPos[0] += Time.deltaTime*2f;
@@ -186,7 +186,7 @@ public class FlintLockScript : ItemScript {
             else cockPosition = 1f;
             if(prevCock != cockPosition){
                 prevCock = cockPosition;
-                PlayAudio("GunCock", 1f, 0, cock.transform.GetChild(0).position);
+                ItemSound.PlayAudio("GunCock", 1f, 0, cock.transform.GetChild(0).position);
             }
 
             // Frizzen
@@ -194,7 +194,7 @@ public class FlintLockScript : ItemScript {
             else if (frizzenRot[0] < 0.9f) frizzenRot[0] = Mathf.MoveTowards(frizzenRot[0], 0f, Time.deltaTime*10f);
 
             if((frizzenRot[0] <= 0f && prevFrizzen != 0f) || (frizzenRot[0] >= 1f && prevFrizzen != 1f)){
-                PlayAudio("GunFrissen", 1f, 0, cock.transform.GetChild(0).position);
+                ItemSound.PlayAudio("GunFrissen", 1f, 0, cock.transform.GetChild(0).position);
                 prevFrizzen = frizzenRot[0];
             }
 
@@ -215,7 +215,7 @@ public class FlintLockScript : ItemScript {
                 frizzenRot[0] = Mathf.Lerp(1f, 0f, fired*2f);
                 if(ignite == 0) {
                     cock.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-                    PlayAudio("GunFlint", 1f, 1, cock.transform.GetChild(0).position);
+                    ItemSound.PlayAudio("GunFlint", 1f, 1, cock.transform.GetChild(0).position);
                     if(Random.Range(0f, 1f) < loadedPowder[0]){
                         ignite = 1; 
                         heat = Random.Range(0f, 0.5f);
@@ -227,7 +227,7 @@ public class FlintLockScript : ItemScript {
                 }
             } else if (ignite == 0) {
                 ignite = 2;
-                PlayAudio("GunEmpty", 1f, 1, cock.transform.GetChild(0).position);
+                ItemSound.PlayAudio("GunEmpty", 1f, 1, cock.transform.GetChild(0).position);
             }
             cockPosition = 1f;
         }

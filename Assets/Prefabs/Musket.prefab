@@ -75,6 +75,7 @@ GameObject:
   m_Component:
   - component: {fileID: 556752513984163520}
   - component: {fileID: 556752513984163521}
+  - component: {fileID: 4802933816604542954}
   m_Layer: 0
   m_Name: Audio Source
   m_TagString: Untagged
@@ -193,6 +194,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4802933816604542954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556752513984163522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbf64efd8e89fb4cb01e6301c8d0d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 0}
+  Sound: {fileID: 0}
+  Sounds:
+  - {fileID: 8300000, guid: 430968f9bfb1582428695eb2c5932766, type: 3}
+  - {fileID: 8300000, guid: b5c12429a76b7d84380ba6ec3efa5687, type: 3}
+  - {fileID: 8300000, guid: a77903f28ef5df042a1763ca7291e48d, type: 3}
+  - {fileID: 8300000, guid: ebdce7487d9a70942a6e795edc967443, type: 3}
+  - {fileID: 8300000, guid: 27657a97f9b22ad41a7410115fd544a4, type: 3}
+  - {fileID: 8300000, guid: 37e0d5fdeaf43974a82cc3a83e3d89de, type: 3}
+  - {fileID: 8300000, guid: f392972537ed66448a8efa766b3198ea, type: 3}
+  - {fileID: 8300000, guid: 3c7f3f195b165ee46b014b03d67dc099, type: 3}
+  - {fileID: 8300000, guid: 5f8d084a853f8ad42958ceaffd6dc932, type: 3}
+  - {fileID: 8300000, guid: 18b9935efd380f54bab23ffcc7ac8da2, type: 3}
+  - {fileID: 8300000, guid: e343c83dd74d1fe46a7a047631dc493f, type: 3}
 --- !u!1 &556752514873681092
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,23 +374,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simpleHandle: {fileID: 0}
-  ItemSound: {fileID: 556752513984163521}
+  ItemSound: {fileID: 4802933816604542954}
   DropSounds:
   - GunDrop1
   - GunDrop2
   - GunDrop3
   Rig: {fileID: 0}
-  ISclips:
-  - {fileID: 8300000, guid: b5c12429a76b7d84380ba6ec3efa5687, type: 3}
-  - {fileID: 8300000, guid: a77903f28ef5df042a1763ca7291e48d, type: 3}
-  - {fileID: 8300000, guid: ebdce7487d9a70942a6e795edc967443, type: 3}
-  - {fileID: 8300000, guid: 430968f9bfb1582428695eb2c5932766, type: 3}
-  - {fileID: 8300000, guid: 27657a97f9b22ad41a7410115fd544a4, type: 3}
-  - {fileID: 8300000, guid: 37e0d5fdeaf43974a82cc3a83e3d89de, type: 3}
-  - {fileID: 8300000, guid: f392972537ed66448a8efa766b3198ea, type: 3}
-  - {fileID: 8300000, guid: 5f8d084a853f8ad42958ceaffd6dc932, type: 3}
-  - {fileID: 8300000, guid: 18b9935efd380f54bab23ffcc7ac8da2, type: 3}
-  - {fileID: 8300000, guid: e343c83dd74d1fe46a7a047631dc493f, type: 3}
   HeldBy: {fileID: 0}
   ThrownVelocity: {x: 0, y: 0, z: 0}
   Bullet: {fileID: 5262343035817461762, guid: 1e68eb2a7b915c44a94e9e95a07c9317, type: 3}
@@ -399,13 +415,13 @@ MonoBehaviour:
   - rrPos: {x: 0, y: 0.02, z: 1.78}
     rrRot: {x: 270, y: 0, z: 0}
   - rrPos: {x: 0, y: -0.378, z: 1.843}
-    rrRot: {x: 45.149773, y: 180.00002, z: 180}
+    rrRot: {x: 130, y: 0, z: 0}
   - rrPos: {x: 0, y: 0.047, z: 0.8}
     rrRot: {x: 90, y: 0, z: 0}
   - rrPos: {x: 0, y: 0.047, z: 1.989}
     rrRot: {x: 90, y: 0, z: 0}
-  - rrPos: {x: 0, y: -0.355, z: 1.989}
-    rrRot: {x: 316.4838, y: 0, z: 0}
+  - rrPos: {x: 0, y: 0.328, z: 1.989}
+    rrRot: {x: 235, y: 0, z: 0}
   insertBullet: 1
   insertedBullet: 
 --- !u!54 &4154472380506528898
@@ -10806,14 +10822,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8764371887520258891}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0.047, z: 1.9879}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0.0196, z: 0.778}
   m_LocalScale: {x: 1, y: 1.29, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 14427840686884320}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
 --- !u!33 &5076947088867847751
 MeshFilter:
   m_ObjectHideFlags: 0

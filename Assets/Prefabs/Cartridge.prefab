@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4611367324469956415}
   - component: {fileID: 8999301305225679407}
+  - component: {fileID: 5750753426911631152}
   m_Layer: 0
   m_Name: ItemAudio
   m_TagString: Untagged
@@ -211,6 +212,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5750753426911631152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614310165833777505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbf64efd8e89fb4cb01e6301c8d0d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 0}
+  Sound: {fileID: 0}
+  Sounds:
+  - {fileID: 8300000, guid: 1f0bf596f48d857488d5076a6f708219, type: 3}
+  - {fileID: 8300000, guid: 35f92b33f6fdba34c8a3a148cf599387, type: 3}
+  - {fileID: 8300000, guid: 98afacaa7fe8c744488ced30e8c81896, type: 3}
 --- !u!1 &1517714189357048397
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,13 +297,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simpleHandle: {fileID: 631338474473079090}
-  ItemSound: {fileID: 8999301305225679407}
+  ItemSound: {fileID: 5750753426911631152}
   DropSounds: []
-  ISclips:
-  - {fileID: 8300000, guid: 1f0bf596f48d857488d5076a6f708219, type: 3}
-  - {fileID: 8300000, guid: 35f92b33f6fdba34c8a3a148cf599387, type: 3}
-  - {fileID: 8300000, guid: 98afacaa7fe8c744488ced30e8c81896, type: 3}
+  Rig: {fileID: 0}
   HeldBy: {fileID: 0}
+  ThrownVelocity: {x: 0, y: 0, z: 0}
   Powder: {fileID: 6754938167978343208}
   Spent: {fileID: 5068607765084194121}
   Lifetime: 10000

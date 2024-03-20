@@ -27,7 +27,7 @@ public class GrabPoint : MonoBehaviour {
         HandVector = new[]{Vector3.zero, Vector3.zero};
         if(this.tag == "Object_Grab") GP = 0;
         else if(this.tag == "Object_Pinch") GP = 1;
-        if(isItem != null) GrabAudio = isItem.ItemSound;
+        if(isItem != null) GrabAudio = isItem.ItemSound.GetComponent<AudioSource>();
     }
 
     public bool checkForGrab(Vector3 tPos){

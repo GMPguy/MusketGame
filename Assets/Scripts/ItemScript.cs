@@ -8,11 +8,9 @@ using Random=UnityEngine.Random;
 public class ItemScript : MonoBehaviour {
     
     public GrabPoint simpleHandle;
-    public AudioSource ItemSound;
+    public SoundScript ItemSound;
     public string[] DropSounds;
     public Rigidbody Rig;
-    public AudioClip[] ISclips;
-    int SoundID;
     protected float[] touching = {1f, 0f}; // touching factor, if is touchin
     bool activated = false;
     public PlayerScript HeldBy;
@@ -30,8 +28,6 @@ public class ItemScript : MonoBehaviour {
             touching[1] -= 0.1f;
         } else touching[0] = 1f;
 
-        if(ItemSound.isPlaying == false) SoundID = -9999;
-
         if(simpleHandle){
             if(simpleHandle.GrabStatus == 1){
                 setPos(true, new[] {simpleHandle.Hand.position, simpleHandle.Hand.position + simpleHandle.Hand.forward, simpleHandle.Hand.up});
@@ -43,31 +39,8 @@ public class ItemScript : MonoBehaviour {
         ItemUpdate();
     }
 
-    public void PlayAudio(string AudioName, float Volume = 1f, int Importance = 0, Vector3 AudioPos = default){
-        if(Importance >= SoundID && AudioName != ""){
-            SoundID = Importance;
-            string theAudio = AudioName;
-            ItemSound.volume = Volume;
-            if(theAudio[0] == '_') theAudio = AudioName[1..];
-            if (AudioPos != default) ItemSound.transform.position = AudioPos;
-            else ItemSound.transform.position = this.transform.position;
-            if (!(AudioName[0] == '_' && ItemSound.isPlaying && ItemSound.clip.name == AudioName[1..])) for(int isc = 0; isc <= ISclips.Length; isc++){
-                if(isc == ISclips.Length){
-                    Debug.LogError("No item sound clip of name " + AudioName + " found!");
-                } else if (ISclips[isc].name == theAudio){
-                    ItemSound.clip = ISclips[isc];
-                    ItemSound.Play();
-                    break;
-                }
-            }
-        } else if (AudioName == ""){
-            ItemSound.Stop();
-            SoundID = -9999;
-        }
-    }
-
     void OnCollisionEnter(Collision collision){
-        if(DropSounds.Length > 0 && Rig.velocity.magnitude > 0.1f) PlayAudio(DropSounds[(int)Random.Range(0f, DropSounds.Length-0.1f)], Mathf.Clamp(Rig.velocity.magnitude, 0f, 1f), -1, collision.contacts[0].point);
+        if(DropSounds.Length > 0 && Rig.velocity.magnitude > 0.1f) ItemSound.PlayAudio(DropSounds[(int)Random.Range(0f, DropSounds.Length-0.1f)], Mathf.Clamp(Rig.velocity.magnitude, 0f, 1f), -1, collision.contacts[0].point);
         ItemCollision(collision);
     }
 
