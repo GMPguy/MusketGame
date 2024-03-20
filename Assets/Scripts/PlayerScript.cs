@@ -95,7 +95,6 @@ public class PlayerScript : MonoBehaviour {
                 if(thumbs[0].magnitude > 0.5f) {
                     Vector3 dmv = (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
                     Collider[] pc =Physics.OverlapCapsule(this.transform.position+(Vector3.up*0.25f)+dmv, Head.transform.position-(Vector3.up*0.25f)+dmv, 0.1f, MovementLayerMask);
-                    if(pc.Length > 0) print(pc[0].name);
                     if(pc.Length <= 0) this.transform.position += dmv;
                 }
                 if(thumbs[1].magnitude > 0.5f) this.transform.Rotate(Vector3.up * thumbs[1].x *  (Time.deltaTime * RotationSpeed));

@@ -67,6 +67,7 @@ public class GrabPoint : MonoBehaviour {
             Hand = null; 
             GrabStatus = 0; 
             Changed = true;
+            if(isItem) isItem.ThrownVelocity = HandVector[1];
         }
     }
 

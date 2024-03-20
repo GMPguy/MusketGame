@@ -5489,6 +5489,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Musket (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5034501416893406044, guid: c21e9d7307db6e5428b5f6d1a2ef2743, type: 3}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c21e9d7307db6e5428b5f6d1a2ef2743, type: 3}
 --- !u!4 &6738637842248199066 stripped

@@ -34,7 +34,13 @@ public class CartridgeScript : ItemScript {
                 Ripped = 1f;
                 Spent.SetParent(Head);
                 PlayAudio("CartridgeTear", 1f, 1, Spent.position);
-            } else if (Ripped >= 2f && Ripped <= 2.5f){
+            }
+        }
+
+        if(Ripped > 0f && PowderGrams > 0f){
+            Ripped += Time.deltaTime;
+
+            if (Ripped >= 2f && Ripped <= 2.5f){
                 Spent.SetParent(null);
                 Rigidbody bye = Spent.AddComponent<Rigidbody>();
                 SphereCollider spere = Spent.AddComponent<SphereCollider>();
@@ -43,10 +49,7 @@ public class CartridgeScript : ItemScript {
                 Ripped = 10f;
                 PlayAudio("CartridgeSpit", 1f, 1, Spent.position);
             }
-        }
 
-        if(Ripped > 0f && PowderGrams > 0f){
-            Ripped += Time.deltaTime;
             Powder.localScale = new Vector3(1f,1f,PowderGrams/8f);
             float[] sipAngle = new float[]{Vector3.Angle(Vector3.down, this.transform.up), Mathf.Lerp(30f, 90f, PowderGrams/8f)};
             if(sipAngle[0] < sipAngle[1]){
@@ -64,6 +67,7 @@ public class CartridgeScript : ItemScript {
                 Sip.Stop();
                 if(Ripped >= 11f) PlayAudio("");
             }
+
         } else if (PowderGrams <= 0f && simpleHandle.isActive){
             simpleHandle.isActive = false;
             Lifetime = 10f;

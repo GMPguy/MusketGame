@@ -10,12 +10,13 @@ public class ItemScript : MonoBehaviour {
     public GrabPoint simpleHandle;
     public AudioSource ItemSound;
     public string[] DropSounds;
-    protected Rigidbody Rig;
+    public Rigidbody Rig;
     public AudioClip[] ISclips;
     int SoundID;
     protected float[] touching = {1f, 0f}; // touching factor, if is touchin
     bool activated = false;
     public PlayerScript HeldBy;
+    public Vector3 ThrownVelocity;
 
     void Start () {
         Rig = this.GetComponent<Rigidbody>();
@@ -96,6 +97,10 @@ public class ItemScript : MonoBehaviour {
         } else {
             if(this.transform.parent != null) this.transform.parent = null;
             Rig.useGravity = true;
+            if(ThrownVelocity.magnitude > 0.01f) {
+                Rig.velocity = ThrownVelocity * 100f;
+                ThrownVelocity = Vector3.zero;
+            }
         }
     }
 
