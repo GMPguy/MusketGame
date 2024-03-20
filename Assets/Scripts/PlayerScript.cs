@@ -39,6 +39,7 @@ public class PlayerScript : MonoBehaviour {
 
     // Misc
     Vector3 Footstep;
+    int FootstepID;
     public LayerMask MovementLayerMask;
     public LadderScript isClimbing;
     public Rigidbody Rig;
@@ -109,7 +110,8 @@ public class PlayerScript : MonoBehaviour {
                     Ray checkFS = new (this.transform.position + Vector3.up/2f, Vector3.down);
                     if(Physics.Raycast(checkFS, out RaycastHit FShit, 0.6f, MovementLayerMask) && FShit.collider.GetComponent<MaterialScript>()){
                         MaterialScript ms = FShit.collider.GetComponent<MaterialScript>();
-                        PlayerAudio.PlayAudio(ms.Footsteps[(int)Random.Range(0f, ms.Footsteps.Length-0.1f)].name, 1f, 0, this.transform.position);
+                        PlayerAudio.PlayAudio(ms.Footsteps[FootstepID].name, 1f, 0, this.transform.position);
+                        FootstepID = (FootstepID+1)%5;
                         Footstep = this.transform.position;
                     }
                 }

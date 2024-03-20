@@ -72,7 +72,7 @@ public class FlintLockScript : ItemScript {
 
         // Ramming rod
         if(rrState == 0) rammingRod.transform.localPosition = Vector3.Lerp(rrPositions[0].rrPos, rrPositions[1].rrPos, rrPos[0]/rrPos[1]);
-        else if(rrState == 1) rammingRod.transform.localPosition = Vector3.Lerp(rrPositions[3].rrPos, rrPositions[4].rrPos, rrPos[0]/rrPos[1]);
+        else if(rrState == 2) rammingRod.transform.localPosition = Vector3.Lerp(rrPositions[3].rrPos, rrPositions[4].rrPos, rrPos[0]/rrPos[1]);
 
         if(rrState == 4){
             if(rammingRod.transform.parent == this.transform){
@@ -134,16 +134,16 @@ public class FlintLockScript : ItemScript {
                     ItemSound.PlayAudio("");
                 }
             } else {
-                rrPos[0] += Time.deltaTime*2f;
+                rrPos[0] += Time.deltaTime;
 
-                int[] s = {1, 2, 4};
-                if(rrState == 3) s = new[] {4, 5, 1};
+                int[] s = {2, 4};
+                if(rrState == 3) s = new[] {5, 1};
                 if (rrPos[0] < rrPos[1]/2f) {
-                    rammingRod.transform.localPosition = Vector3.Lerp(rrPositions[s[0]].rrPos, rrPositions[s[1]].rrPos, rrPos[0] / (rrPos[1]/2f));
-                    rammingRod.transform.localRotation = Quaternion.Lerp(Quaternion.Euler(rrPositions[s[0]].rrRot), Quaternion.Euler(rrPositions[s[1]].rrRot), rrPos[0] / (rrPos[1]/2f));
+                    rammingRod.transform.localPosition = Vector3.Slerp(prevRR[0], rrPositions[s[0]].rrPos, rrPos[0] / (rrPos[1]/2f));
+                    rammingRod.transform.localRotation = Quaternion.Slerp(Quaternion.Euler(prevRR[1]), Quaternion.Euler(rrPositions[s[0]].rrRot), rrPos[0] / (rrPos[1]/2f));
                 } else if (rrPos[0] >= rrPos[1]/2f) {
-                    rammingRod.transform.localPosition = Vector3.Lerp(rrPositions[s[1]].rrPos, rrPositions[s[2]].rrPos, rrPos[0] / (rrPos[1]/2f));
-                    rammingRod.transform.localRotation = Quaternion.Lerp(Quaternion.Euler(rrPositions[s[1]].rrRot), Quaternion.Euler(rrPositions[s[2]].rrRot), rrPos[0] / (rrPos[1]/2f));
+                    rammingRod.transform.localPosition = Vector3.Slerp(rrPositions[s[0]].rrPos, rrPositions[s[1]].rrPos, (rrPos[0]-0.5f) / (rrPos[1]/2f));
+                    rammingRod.transform.localRotation = Quaternion.Slerp(Quaternion.Euler(rrPositions[s[0]].rrRot), Quaternion.Euler(rrPositions[s[1]].rrRot), (rrPos[0]-0.5f) / (rrPos[1]/2f));
                 }
 
                 /*Vector3[] switcharoo = new[]{

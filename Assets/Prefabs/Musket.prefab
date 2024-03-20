@@ -414,13 +414,13 @@ MonoBehaviour:
     rrRot: {x: 270, y: 0, z: 0}
   - rrPos: {x: 0, y: 0.02, z: 1.78}
     rrRot: {x: 270, y: 0, z: 0}
-  - rrPos: {x: 0, y: -0.378, z: 1.843}
+  - rrPos: {x: 0, y: -0.378, z: 2}
     rrRot: {x: 130, y: 0, z: 0}
   - rrPos: {x: 0, y: 0.047, z: 0.8}
     rrRot: {x: 90, y: 0, z: 0}
   - rrPos: {x: 0, y: 0.047, z: 1.989}
     rrRot: {x: 90, y: 0, z: 0}
-  - rrPos: {x: 0, y: 0.328, z: 1.989}
+  - rrPos: {x: 0, y: 0.328, z: 2.25}
     rrRot: {x: 235, y: 0, z: 0}
   insertBullet: 1
   insertedBullet: 

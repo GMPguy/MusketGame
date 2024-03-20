@@ -8,20 +8,23 @@ public class GunfireScript : MonoBehaviour {
     public int State = 0;
     public float Power, MaxAngle;
     public float[] Distances, Speeds;
-    float Gravity, Lifetime;
+    const float Gravity = 9.8f; 
+    float Lifetime;
     public AudioClip[] FireSounds;
     public GameObject WhoShot;
 
     public Transform Bullet;
     public ParticleSystem Smoke;
     public ParticleSystem Fire;
-    Vector3 PrevPos;
+    Vector3 Origin, PrevPos;
+    List<Vector3> Laser;
 
     void Start(){
+        Laser = new List<Vector3>();
         ParticleSystem.EmissionModule mSmoke = Smoke.emission;
         mSmoke.rateOverTime = Mathf.Lerp(25, 500, Power);
         Smoke.Play();
-        PrevPos = this.transform.position;
+        PrevPos = Origin = this.transform.position;
         if(Power > 0f){
             Bullet.parent = null;
             Fire.Play();
@@ -29,6 +32,7 @@ public class GunfireScript : MonoBehaviour {
             this.GetComponent<AudioSource>().Play();
         } else {
             Bullet.localScale = Vector3.zero;
+            Destroy(Bullet.GetChild(0).gameObject);
             Lifetime = 10f;
             State = 1;
             this.GetComponent<AudioSource>().clip = FireSounds[1];
@@ -41,13 +45,14 @@ public class GunfireScript : MonoBehaviour {
 
             case 0:
                 Lifetime += Time.deltaTime;
-                Bullet.position += Bullet.forward * Mathf.Lerp(Speeds[0], Speeds[1], Power) + Vector3.down * (Gravity*Time.deltaTime*Lifetime*Lifetime);
+                Bullet.position += (Bullet.forward*(Mathf.Lerp(Speeds[0], Speeds[1], Power)*Time.deltaTime)) + (Vector3.down * (Gravity*Lifetime*Time.deltaTime));
+                Laser.Add(PrevPos);
+                Laser.Add(Bullet.position);
 
                 Ray Tracer = new Ray(PrevPos, Bullet.position - PrevPos);
                 if(Physics.Raycast(Tracer, out RaycastHit TracerHIT, Vector3.Distance(Bullet.position, PrevPos))) Hit(TracerHIT.collider, new[]{TracerHIT.point, TracerHIT.normal});
-                
-                if(Distances[1] >= Mathf.Lerp( Distances[0], Distances[1], Distances[2] )) Hit(null);
-                Distances[2] += Vector3.Distance(PrevPos, Bullet.position);
+                else if (Bullet.position.y < 0f) Hit(null);
+
                 PrevPos = Bullet.position;
                 break;
             case 1:
@@ -62,6 +67,8 @@ public class GunfireScript : MonoBehaviour {
     }
 
     void Hit(Collider Victim = null, Vector3[] hitPoints = default){
+
+        float Lethality = Mathf.Lerp(1f, 0f, (Vector3.Distance(Origin, Bullet.position)-Mathf.Lerp(Distances[0], Distances[1], Power)) / Mathf.Lerp(Distances[0], Distances[1], Power));
 
         if(State == 0){
             bool hasHit = false;
@@ -90,6 +97,10 @@ public class GunfireScript : MonoBehaviour {
                 Rigidbody bRig = Bullet.gameObject.AddComponent<Rigidbody>();
                 bRig.collisionDetectionMode = CollisionDetectionMode.Continuous;
                 bRig.velocity = Bullet.transform.forward;
+            }
+
+            for(int dl = 0; dl < Laser.ToArray().Length-1; dl+=2){
+                Debug.DrawLine(Laser[dl], Laser[dl+1], Color.red, 100f);
             }
         }
 
