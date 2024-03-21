@@ -18,7 +18,6 @@ public class PlayerScript : MonoBehaviour {
     public Transform[] ActualHands;
     public Transform[] HandsVisible;
     public Animator[] HandsAnims;
-    float[] quitAnim = {0f, 0f};
     // Hand visuals
 
     // Hand actions
@@ -43,6 +42,8 @@ public class PlayerScript : MonoBehaviour {
     public LayerMask MovementLayerMask;
     public LadderScript isClimbing;
     public Rigidbody Rig;
+    float[] AnimQuit = {0f, 0f};
+    int[] AnimImp = {-9999, -9999};
     // Misc
 
     // Audio
@@ -91,7 +92,7 @@ public class PlayerScript : MonoBehaviour {
                 break;
             case "Ladder":
                 Movement("RigDisable", false);
-                this.transform.position -= this.transform.TransformDirection(isClimbing.HandVector[1]);
+                this.transform.position -= isClimbing.HandVector[1];
                 break;
             default:
                 Movement("RigEnable", false);
@@ -127,15 +128,16 @@ public class PlayerScript : MonoBehaviour {
             HandGrab[sh] = GrabDet[sh].action.ReadValue<float>();
             HandsAnims[sh].SetFloat("Grab", HandGrab[sh]);
 
-            if(quitAnim[sh] > 0f){
-                quitAnim[sh] -= Time.deltaTime;
+            if(AnimQuit[sh] > 0f) {
+                AnimQuit[sh] -= Time.deltaTime;
             } else {
                 HandsAnims[sh].Play("Idle", 0);
                 HandsVisible[sh].position = ActualHands[sh].position;
                 HandsVisible[sh].rotation = ActualHands[sh].rotation;
+                AnimImp[sh] = -9999;
             }
 
-            Vector3[] pHVref = new[] {ActualHands[sh].position, ActualHands[sh].localPosition, ActualHands[sh].eulerAngles};
+            Vector3[] pHVref = new[] {ActualHands[sh].position, ActualHands[sh].position - this.transform.position, ActualHands[sh].eulerAngles};
             for(int pHV = 0; pHV < 3; pHV++) if (pHVref[pHV] != prevHandVectors[sh*3+pHV]){
                 HandVector[sh*3+pHV] = pHVref[pHV] - prevHandVectors[sh*3+pHV];
                 prevHandVectors[sh*3+pHV] = pHVref[pHV];
@@ -152,6 +154,7 @@ public class PlayerScript : MonoBehaviour {
                 gp.inhPinch = HandPinch[sh];
                 gp.inchGrab = HandGrab[sh];
                 gp.HandVector = new[]{ HandVector[sh*3], HandVector[sh*3 + 1], HandVector[sh*3+2] };
+                if(gp.GrabAnim != "") HandAnimate(gp.GrabAnim, sh, new[]{gp.transform.position, gp.transform.eulerAngles});
                 if(!gp.isActive || (gp.tag == "Object_Grab" && gp.inchGrab < 0.1f) || (gp.tag == "Object_Pinch" && gp.inhPinch < 0.1f) ) Catch(sh, iv%2, true);
             }
         }
@@ -187,11 +190,16 @@ public class PlayerScript : MonoBehaviour {
         }
     }
 
-    public void handAnimate(string newState, int theHand, Vector3[] pos){
-        quitAnim[theHand] = Time.deltaTime*3f;
-        HandsAnims[theHand].Play(newState);
-        HandsVisible[theHand].position = pos[0];
-        HandsVisible[theHand].eulerAngles = pos[1];
+    public void HandAnimate(string newState, int theHand, Vector3[] pos = default, int Importance = 0){
+        if(Importance >= AnimImp[theHand]){
+            HandsAnims[theHand].Play(newState);
+            AnimQuit[theHand] = Time.deltaTime*4f;
+            AnimImp[theHand] = Importance;
+            if(pos != default){
+                HandsVisible[theHand].position = pos[0];
+                HandsVisible[theHand].eulerAngles = pos[1];
+            }
+        }
     }
 
 }

@@ -7,6 +7,7 @@ public class GrabPoint : MonoBehaviour {
     public ItemScript isItem;
     public bool isActive = true;
     public float GrabDistance = 1f;
+    public string GrabAnim;
     public Vector3 GrabOffset;
     public Collider GrabCollider;
     public bool MultiTask = false;
@@ -36,7 +37,7 @@ public class GrabPoint : MonoBehaviour {
     }
 
     public float checkForDist(Vector3 tPos){
-        if(!GrabCollider) return Vector3.Distance(this.transform.position /*+ this.transform.TransformPoint(GrabOffset)*/, tPos);
+        if(!GrabCollider) return Vector3.Distance(this.transform.position + (transform.right*GrabOffset.x + transform.up*GrabOffset.y + transform.forward*GrabOffset.z), tPos);
         else return Vector3.Distance(GrabCollider.ClosestPoint(tPos), tPos);
     }
 

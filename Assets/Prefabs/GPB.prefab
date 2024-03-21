@@ -5093,6 +5093,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GunPowderBottle
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 30a8af6168b43864eaa1fc46b3dc48c6, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30a8af6168b43864eaa1fc46b3dc48c6, type: 3}
 --- !u!1 &1227089194081119477 stripped
@@ -5129,6 +5133,7 @@ MonoBehaviour:
   isItem: {fileID: 3415852209541200089}
   isActive: 1
   GrabDistance: 0.1
+  GrabAnim: 
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
   MultiTask: 1

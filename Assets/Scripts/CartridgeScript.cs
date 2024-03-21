@@ -27,7 +27,6 @@ public class CartridgeScript : ItemScript {
 
     public override void ItemUpdate() {
         if(simpleHandle.GrabStatus == 1) {
-            simpleHandle.Master.handAnimate("Cartridge", simpleHandle.HandIndex, new[]{this.transform.position, this.transform.eulerAngles});
             if(Ripped <= 0f && Head && Vector3.Distance(this.transform.position, Head.transform.position) < 0.2f){
                 Ripped = 1f;
                 Spent.SetParent(Head);

@@ -132,6 +132,7 @@ MonoBehaviour:
   isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.25
+  GrabAnim: 
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
   MultiTask: 0
@@ -159,5 +160,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.30000007, z: 0.21916899}
-  m_Center: {x: -1.1420465e-15, y: 0, z: 0.109584495}
+  m_Size: {x: 0.103563786, y: 0.1618399, z: 0.10408813}
+  m_Center: {x: 0.00017132796, y: 0.0003343448, z: 0.052044045}

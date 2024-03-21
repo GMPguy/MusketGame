@@ -47,6 +47,7 @@ MonoBehaviour:
   isItem: {fileID: 556752514296545229}
   isActive: 1
   GrabDistance: 0.2
+  GrabAnim: FlintlockHandle
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
   MultiTask: 0
@@ -267,6 +268,7 @@ MonoBehaviour:
   isItem: {fileID: 556752514296545229}
   isActive: 1
   GrabDistance: 0.2
+  GrabAnim: FlintlockHold
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
   MultiTask: 0
@@ -539,6 +541,7 @@ MonoBehaviour:
   isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.2
+  GrabAnim: 
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
   MultiTask: 0
@@ -5668,6 +5671,7 @@ MonoBehaviour:
   isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.2
+  GrabAnim: 
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
   MultiTask: 0
@@ -10895,6 +10899,7 @@ MonoBehaviour:
   isItem: {fileID: 0}
   isActive: 1
   GrabDistance: 0.25
+  GrabAnim: 
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 4280055508710325887}
   MultiTask: 0

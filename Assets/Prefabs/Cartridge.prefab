@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2187572593794627831}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6520983663241789739
 MeshFilter:
@@ -114,7 +114,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2187572593794627831}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &8999301305225679407
 AudioSource:
@@ -260,6 +260,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5098488320356241781}
   - {fileID: 4663559559232438030}
   - {fileID: 6754938167978343208}
   - {fileID: 5068607765084194121}
@@ -296,7 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4200e5845a1fb134e9ffe51177acb10d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simpleHandle: {fileID: 631338474473079090}
+  simpleHandle: {fileID: 1887859463803100827}
   ItemSound: {fileID: 5750753426911631152}
   DropSounds: []
   Rig: {fileID: 0}
@@ -304,11 +305,78 @@ MonoBehaviour:
   ThrownVelocity: {x: 0, y: 0, z: 0}
   Powder: {fileID: 6754938167978343208}
   Spent: {fileID: 5068607765084194121}
+  isBottle: 0
   Lifetime: 10000
-  PowderGrams: 0
+  PowderGrams: []
   Ripped: 0
   Head: {fileID: 0}
   Sip: {fileID: 5834063896900823067}
+--- !u!1 &2576442310231301995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5098488320356241781}
+  - component: {fileID: 1887859463803100827}
+  m_Layer: 0
+  m_Name: Handle
+  m_TagString: Object_Grab
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5098488320356241781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2576442310231301995}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2187572593794627831}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1887859463803100827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2576442310231301995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b2c613f1986a446b9f6043a14d4c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isItem: {fileID: 4324991572861122445}
+  isActive: 1
+  GrabDistance: 0.1
+  GrabAnim: Cartridge
+  GrabOffset: {x: 0, y: 0, z: 0}
+  GrabCollider: {fileID: 0}
+  MultiTask: 1
+  Switchable: 1
+  GrabAudio: {fileID: 0}
+  GrabAudioClips:
+  - {fileID: 8300000, guid: db205f69de730874596f9e49401a14f9, type: 3}
+  inhPinch: 0
+  inchGrab: 0
+  HandVector:
+  - {x: 0.000000013167257, y: 0.00000004126049, z: 0.000044153443}
+  - {x: 0.00000016799171, y: 2.1886237e+23, z: 0.000000041953363}
+  - {x: 1.3295888e+22, y: 0.00000004223257, z: 1.076e-42}
+  GrabStatus: 0
+  Changed: 0
+  Hand: {fileID: 0}
+  HandIndex: 0
+  Master: {fileID: 0}
 --- !u!1 &4074181076126635903
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,10 +389,9 @@ GameObject:
   - component: {fileID: 5009818337960635098}
   - component: {fileID: 408873877696700432}
   - component: {fileID: 3769286140071410608}
-  - component: {fileID: 631338474473079090}
   m_Layer: 3
   m_Name: Cartridge
-  m_TagString: Object_Grab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -342,7 +409,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2187572593794627831}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5009818337960635098
 MeshFilter:
@@ -408,39 +475,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -3379648951054740847, guid: eaec9111c84e82f429d8045a5cc67631, type: 3}
---- !u!114 &631338474473079090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4074181076126635903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56b2c613f1986a446b9f6043a14d4c53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isItem: {fileID: 4324991572861122445}
-  isActive: 1
-  GrabDistance: 0.1
-  GrabOffset: {x: 0, y: 0, z: 0}
-  GrabCollider: {fileID: 0}
-  MultiTask: 1
-  Switchable: 1
-  GrabAudio: {fileID: 0}
-  GrabAudioClips:
-  - {fileID: 8300000, guid: db205f69de730874596f9e49401a14f9, type: 3}
-  inhPinch: 0
-  inchGrab: 0
-  HandVector:
-  - {x: 0.000000013167257, y: 0.00000004126049, z: 0.000044153443}
-  - {x: 0.00000016799171, y: 2.1886237e+23, z: 0.000000041953363}
-  - {x: 1.3295888e+22, y: 0.00000004223257, z: 1.076e-42}
-  GrabStatus: 0
-  Changed: 0
-  Hand: {fileID: 0}
-  HandIndex: 0
-  Master: {fileID: 0}
 --- !u!1 &7659891789337183718
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,7 +506,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2187572593794627831}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7196772492669665780
 MeshFilter:
@@ -555,7 +589,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2187572593794627831}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &5834063896900823067
 ParticleSystem:

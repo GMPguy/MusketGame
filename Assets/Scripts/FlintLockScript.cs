@@ -38,14 +38,12 @@ public class FlintLockScript : ItemScript {
         if(Handle.GrabStatus == 1){
             triggerRot[0] = Handle.inhPinch;
             if(Holder && Holder.GrabStatus == 1){
-                Holder.Master.handAnimate("FlintlockHold", Holder.HandIndex, new Vector3[]{Holder.transform.position, Holder.transform.eulerAngles});
                 setPos(true, new[]{Handle.Hand.position, Holder.Hand.position, Handle.Hand.up});
                 HolderPos = Holder.transform.position;
                 HolderRot = this.transform.eulerAngles;
             } else {
                 setPos(true, new[]{Handle.Hand.position, this.transform.position + Handle.Hand.forward, Handle.Hand.up});
             }
-            Handle.Master.handAnimate("FlintlockHandle", Handle.HandIndex, new Vector3[]{Handle.transform.position, Handle.transform.eulerAngles});
         } else if (Holder && Holder.GrabStatus == 1){
             triggerRot[0] = 0f;
             HolderPos += Holder.HandVector[0];
@@ -53,7 +51,6 @@ public class FlintLockScript : ItemScript {
             setPos(true, new[]{movePivoted(this.transform, Holder.transform.position, HolderPos), HolderRot});
             //setPos(true, new[]{movePivoted(this.transform, Holder.transform.position, Holder.Hand.position), Holder.Hand.position + Holder.Hand.forward, Holder.Hand.up});
             //this.transform.position = Vector3.Lerp(this.transform.position, adherePivot(Holder.transform.position, Holder.Hand.position), 0.5f);
-            Holder.Master.handAnimate("FlintlockHold", Holder.HandIndex, new Vector3[]{Holder.transform.position, Holder.transform.eulerAngles});
         } else {
             triggerRot[0] = 0f;
             HolderPos = Holder.transform.position;
@@ -102,7 +99,7 @@ public class FlintLockScript : ItemScript {
                         rrPos[0] = 0.1f;
                     }
                     rrSlide = 2f;
-                    rrpVector = Vector3.Dot(this.transform.forward, rammingRod.HandVector[0]);
+                    rrpVector = Vector3.Dot(this.transform.forward, rammingRod.HandVector[1]);
                     rrPos[0] = Mathf.Clamp(rrPos[0] + rrpVector, 0f, rrPos[1]*2f);
                     //rammingRod.Master.handAnimate("FlintlockHold", rammingRod.HandIndex, new Vector3[]{rammingRod.transform.position, rammingRod.transform.eulerAngles});
                     if(rrPos[0] > rrPos[1]){
@@ -178,7 +175,7 @@ public class FlintLockScript : ItemScript {
         if(fired <= 0f){
 
             // Cock
-            if(cock.GetComponent<GrabPoint>().GrabStatus == 1) cockRot[0] = Mathf.Clamp(cockRot[0] + Vector3.Dot(this.transform.forward, cock.HandVector[0])*5f, 0f, 0.5f + (0.5f * frizzenRot[0]));
+            if(cock.GetComponent<GrabPoint>().GrabStatus == 1) cockRot[0] = Mathf.Clamp(cockRot[0] + Vector3.Dot(this.transform.forward, cock.HandVector[1])*5f, 0f, 0.5f + (0.5f * frizzenRot[0]));
             else cockRot[0] = Mathf.MoveTowards(cockRot[0], Mathf.Clamp(cockPosition, 0f, 0.5f + frizzenRot[0]*0.5f), Time.deltaTime*10f);
 
             if(cockRot[0] < 0.1f) cockPosition = 0f;
@@ -190,7 +187,7 @@ public class FlintLockScript : ItemScript {
             }
 
             // Frizzen
-            if(frizzen.GetComponent<GrabPoint>().GrabStatus == 1) frizzenRot[0] = Mathf.Clamp(frizzenRot[0] + Vector3.Dot(this.transform.forward, frizzen.HandVector[0])*20f, 0f, 1f);
+            if(frizzen.GetComponent<GrabPoint>().GrabStatus == 1) frizzenRot[0] = Mathf.Clamp(frizzenRot[0] + Vector3.Dot(this.transform.forward, frizzen.HandVector[1])*20f, 0f, 1f);
             else if (frizzenRot[0] < 0.9f) frizzenRot[0] = Mathf.MoveTowards(frizzenRot[0], 0f, Time.deltaTime*10f);
 
             if((frizzenRot[0] <= 0f && prevFrizzen != 0f) || (frizzenRot[0] >= 1f && prevFrizzen != 1f)){

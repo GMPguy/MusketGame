@@ -13,7 +13,6 @@ public class DispenserScript : GrabPoint {
             newItem.transform.GetChild(HandleID).GetComponent<GrabPoint>().Grab(Hand, HandIndex);
             newItem.transform.position = this.transform.GetChild(0).position;
             newItem.transform.rotation = this.transform.GetChild(0).rotation;
-            print("Created an item!");
         }
     }
 
