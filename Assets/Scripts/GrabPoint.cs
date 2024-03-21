@@ -45,12 +45,13 @@ public class GrabPoint : MonoBehaviour {
             Hand = newHands;
             HandIndex = handIndex/2;
             Master = Hand.parent.parent.GetComponent<PlayerScript>();
+            if(Master.CaughtObjects[handIndex]) Master.CaughtObjects[handIndex].GetComponent<GrabPoint>().Drop();
             Master.Multitask[handIndex/2] = MultiTask;
             Master.CaughtObjects[handIndex] = this.gameObject;
             GrabStatus = 1; 
             Changed = true;
             if(isItem) isItem.HeldBy = Master;
-            if(GrabAudioClips.Length > 0) {
+            if(GrabAudio && GrabAudioClips.Length > 0) {
                 GrabAudio.transform.position = Hand.position;
                 GrabAudio.clip = GrabAudioClips[(int)Random.Range(0f, GrabAudioClips.Length-.1f)];
                 GrabAudio.volume = 1f;

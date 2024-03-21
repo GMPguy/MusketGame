@@ -252,16 +252,16 @@ public class FlintLockScript : ItemScript {
             } else {
                 insertedBullet = "Jam";
             }
-
+            loadedPowder[1] = 0f;
             if(firePower >= 0f){
                 if(rrState == 2 || (rrState == 0 && Random.Range(rrPos[1] * 0.25f, rrPos[1]) < rrPos[0])) rrState = 4;
-
                 GameObject Shoot = Instantiate(Bullet);
                 Shoot.transform.position = orgPos[0];
                 Shoot.transform.forward = orgPos[1];
                 Shoot.GetComponent<GunfireScript>().Power = firePower;
             }
         }
+       
     }
 
     public bool LoadBullet(string What, Vector3 Where, Vector3 Rot, float How = 0f){
@@ -272,7 +272,7 @@ public class FlintLockScript : ItemScript {
             foreach(Transform setChild in Slimend.GetChild(0)) {
                 if(setChild.name == What) {
                     setChild.localScale = Vector3.one;
-                    if(What == "Cartridge") loadedPowder[1] = How;
+                    if(What == "Cartridge") loadedPowder[1] += How;
                 } else setChild.localScale = Vector3.zero;
             }
             return true;
