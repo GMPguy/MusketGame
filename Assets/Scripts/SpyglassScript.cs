@@ -13,11 +13,11 @@ public class SpyglassScript : ItemScript {
     LunetaScript Glass;
     bool enableGlass = false;
 
-    public override void ItemStart() {
+    protected override void ItemStart() {
         Glass = GameObject.FindObjectOfType<LunetaScript>();
     }
 
-    public override void ItemUpdate() {
+    protected override void ItemUpdate() {
 
         if(Holder.GrabStatus == 1){
             Handle.isActive = true;
@@ -29,6 +29,8 @@ public class SpyglassScript : ItemScript {
 
             if(ZoomDist > 0.025f || ZoomDist < -0.025f){
                 Zoom = Mathf.Clamp(Zoom + ZoomDist, 0f, 1f);
+                Glass.FOV = Mathf.Lerp(11f, 3f, Zoom);
+                Glass.BarrelLenght = Mathf.Lerp(0.06f, 0.015f, Zoom);
                 ItemSound.PlayAudio("SpyglassCrank", 1f, 0, this.transform.position);
                 Segments[0].localPosition = Vector3.forward * Mathf.Lerp(0.235f, 0.4847f, Zoom);
                 for(int ss = 1; ss < Segments.Length; ss++) Segments[ss].localPosition = Vector3.forward * SegmentOffsets[ss-1] * Zoom;
@@ -39,6 +41,7 @@ public class SpyglassScript : ItemScript {
                 enableGlass = true;
                 Glass.Enable(View);
             }
+
         } else {
             Handle.isActive = false;
             setPos(false);

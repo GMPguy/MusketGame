@@ -15,7 +15,7 @@ public class CartridgeScript : ItemScript {
     public ParticleSystem Sip;
     ParticleSystem.EmissionModule sipEmission;
 
-    public override void ItemStart() {
+    protected override void ItemStart() {
         if(!isBottle) PowderGrams = new[]{Random.Range(7f, 7.9f), 8f};
         Head = GameObject.Find("Main Camera").transform;
         sipEmission = Sip.emission;
@@ -25,7 +25,7 @@ public class CartridgeScript : ItemScript {
         }
     }
 
-    public override void ItemUpdate() {
+    protected override void ItemUpdate() {
         if(simpleHandle.GrabStatus == 1) {
             if(Ripped <= 0f && Head && Vector3.Distance(this.transform.position, Head.transform.position) < 0.2f){
                 Ripped = 1f;
@@ -81,8 +81,9 @@ public class CartridgeScript : ItemScript {
         }
     }
 
-    public override void ItemCollision(Collision collision){
-        if(!isBottle && collision.collider.name == "MusketBody" && Ripped > 0f && collision.collider.transform.parent.GetComponent<FlintLockScript>().LoadBullet("Cartridge", this.transform.position, this.transform.eulerAngles, PowderGrams[0])){
+    protected override void ItemCollision(Collision collision){
+        if(simpleHandle.GrabStatus == 1 && !isBottle && collision.collider.name == "MusketBody" && Ripped > 0f && collision.collider.transform.parent.GetComponent<FlintLockScript>().LoadBullet("Cartridge", this.transform.position, this.transform.eulerAngles, PowderGrams[0])){
+            simpleHandle.Drop();
             if(Spent.gameObject) Destroy(Spent.gameObject);
             Destroy(this.gameObject);
         }

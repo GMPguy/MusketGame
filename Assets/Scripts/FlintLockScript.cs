@@ -28,7 +28,7 @@ public class FlintLockScript : ItemScript {
     public float insertBullet = 1f;
     public string insertedBullet = "";
 
-    public override void ItemUpdate(){
+    protected override void ItemUpdate(){
         gunHandling();
         gunMechanics();
     }
@@ -136,24 +136,14 @@ public class FlintLockScript : ItemScript {
                 int[] s = {2, 4};
                 if(rrState == 3) s = new[] {5, 1};
                 if (rrPos[0] < rrPos[1]/2f) {
-                    rammingRod.transform.localPosition = Vector3.Slerp(prevRR[0], rrPositions[s[0]].rrPos, rrPos[0] / (rrPos[1]/2f));
-                    rammingRod.transform.localRotation = Quaternion.Slerp(Quaternion.Euler(prevRR[1]), Quaternion.Euler(rrPositions[s[0]].rrRot), rrPos[0] / (rrPos[1]/2f));
+                    rammingRod.transform.localPosition = Vector3.Slerp(prevRR[0], rrPositions[s[0]].rrPos, Mathf.Sin(rrPos[0] / rrPos[1] * Mathf.PI));
+                    rammingRod.transform.localRotation = Quaternion.Slerp(Quaternion.Euler(prevRR[1]), Quaternion.Euler(rrPositions[s[0]].rrRot), Mathf.Sin(rrPos[0] / rrPos[1] * Mathf.PI));
                 } else if (rrPos[0] >= rrPos[1]/2f) {
-                    rammingRod.transform.localPosition = Vector3.Slerp(rrPositions[s[0]].rrPos, rrPositions[s[1]].rrPos, (rrPos[0]-0.5f) / (rrPos[1]/2f));
-                    rammingRod.transform.localRotation = Quaternion.Slerp(Quaternion.Euler(rrPositions[s[0]].rrRot), Quaternion.Euler(rrPositions[s[1]].rrRot), (rrPos[0]-0.5f) / (rrPos[1]/2f));
+                    rammingRod.transform.localPosition = Vector3.Slerp(rrPositions[s[0]].rrPos, rrPositions[s[1]].rrPos, 1f -Mathf.Sin(rrPos[0] / rrPos[1] * Mathf.PI));
+                    rammingRod.transform.localRotation = Quaternion.Slerp(Quaternion.Euler(rrPositions[s[0]].rrRot), Quaternion.Euler(rrPositions[s[1]].rrRot), 1f - Mathf.Sin(rrPos[0] / rrPos[1] * Mathf.PI));
                 }
 
-                /*Vector3[] switcharoo = new[]{
-                    new Vector3(rrPositions[0].x, rrPositions[0].y, rrPositions[0].z + rrPositions[0].w),
-                    new Vector3(rrPositions[1].x, rrPositions[1].y, rrPositions[1].z + rrPositions[1].w)
-                };
-                if(rrState == 1) {
-                    rammingRod.transform.localPosition = Vector3.Lerp(prevRR[0], switcharoo[1], rrPos[0] / rrPos[1]);
-                    rammingRod.transform.localRotation = Quaternion.Lerp(Quaternion.Euler(prevRR[1]), Quaternion.Euler(new Vector3(-270f, 0f, 0f)), rrPos[0] / rrPos[1]);
-                } else if(rrState == 3) {
-                    rammingRod.transform.localPosition = Vector3.Lerp(prevRR[0], switcharoo[0], rrPos[0] / rrPos[1]);
-                    rammingRod.transform.localRotation = Quaternion.Lerp(Quaternion.Euler(prevRR[1]), Quaternion.Euler(new Vector3(-90f, 0f, 0f)), rrPos[0] / rrPos[1]);
-                }*/
+                
                 if(rrPos[0] >= rrPos[1]) {
                     rrState = (rrState+1)%4;
                     rrPos[0] = rrPos[1] * 0.9f;
@@ -232,7 +222,7 @@ public class FlintLockScript : ItemScript {
     }
 
     public void FireGun(){
-        if(insertedBullet == "Cartridge" && insertBullet <= 0.1f){
+        if((insertedBullet == "Cartridge" || insertedBullet == "Bullet") && insertBullet <= 0.1f){
             float firePower = -1f;
             Vector3[] orgPos = new[]{Slimend.position, Slimend.forward};
             if(loadedPowder[1] >= 3f){
@@ -262,15 +252,37 @@ public class FlintLockScript : ItemScript {
     }
 
     public bool LoadBullet(string What, Vector3 Where, Vector3 Rot, float How = 0f){
-        if(insertedBullet == "" && rrState == 0 && Vector3.Distance(Where, Slimend.position) < 0.3f){
+        bool permToLoad = false;
+        if(((What == "Cartridge" || What == "Wad") && insertedBullet == "") || (What == "Bullet" && insertedBullet == "Wad")) 
+            permToLoad = true;
+
+        if(permToLoad && (rrState == 0 || rrState == 4) && Vector3.Distance(Where, Slimend.position) < 0.3f){
+
             insertedBullet = What;
-            insertBullet = 1f;
-            Slimend.GetChild(0).localPosition = Vector3.zero;
-            foreach(Transform setChild in Slimend.GetChild(0)) {
-                if(setChild.name == What) {
-                    setChild.localScale = Vector3.one;
-                    if(What == "Cartridge") loadedPowder[1] += How;
-                } else setChild.localScale = Vector3.zero;
+            string insertSound = "";
+            switch(What){
+                case "Cartridge":
+                    insertBullet = 1f;
+                    insertSound = "GunCartridge";
+                    loadedPowder[1] += How;
+                    break;
+                case "Wad":
+                    insertSound = "GunWad";
+                    insertBullet = 1f;
+                    break;
+                case "Bullet":
+                    if(insertBullet >= 0.9f) insertSound = "GunWad";
+                    else insertSound = "GunBulletRoll";
+                    break;
+            }
+
+            insertedBullet = What;
+            Slimend.GetChild(0).localPosition = Vector3.back * (1f-insertBullet) * rrPos[1];
+            if(insertSound != "") ItemSound.PlayAudio(insertSound, 1f, 1, Slimend.position);
+            Slimend.transform.GetChild(0).localScale = Vector3.one;
+            foreach (Transform GetLoad in Slimend.transform.GetChild(0)) {
+                if(GetLoad.name == insertedBullet) GetLoad.localScale = Vector3.one;
+                else GetLoad.localScale = Vector3.zero;
             }
             return true;
         } else {

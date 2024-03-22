@@ -49,10 +49,10 @@ public class ItemScript : MonoBehaviour {
         ItemCollisionStay(collision);
     }
 
-    public virtual void ItemStart(){}
-    public virtual void ItemUpdate(){}
-    public virtual void ItemCollision(Collision collision){}
-    public virtual void ItemCollisionStay(Collision collision){}
+    protected virtual void ItemStart(){}
+    protected virtual void ItemUpdate(){}
+    protected virtual void ItemCollision(Collision collision){}
+    protected virtual void ItemCollisionStay(Collision collision){}
 
     public static Vector3 movePivoted(Transform trans, Vector3 Pivot, Vector3 target){
         return target - (Pivot - trans.position);

@@ -10,7 +10,8 @@ public class DispenserScript : GrabPoint {
         if(Changed && GrabStatus == 1){
             Changed = false;
             GameObject newItem = Instantiate(Item);
-            newItem.transform.GetChild(HandleID).GetComponent<GrabPoint>().Grab(Hand, HandIndex);
+            if(HandleID == -1) newItem.GetComponent<GrabPoint>().Grab(Hand, HandIndex+GP);
+            else newItem.transform.GetChild(HandleID).GetComponent<GrabPoint>().Grab(Hand, HandIndex+GP);
             newItem.transform.position = this.transform.GetChild(0).position;
             newItem.transform.rotation = this.transform.GetChild(0).rotation;
         }

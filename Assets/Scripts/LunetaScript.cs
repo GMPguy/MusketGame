@@ -10,6 +10,7 @@ public class LunetaScript : MonoBehaviour {
     TrackedPoseDriver HP;
     public Transform[] Targets;
     public float FOV;
+    public float BarrelLenght;
 
     void Start(){
         Head = GameObject.Find("Main Camera").transform;
@@ -19,7 +20,9 @@ public class LunetaScript : MonoBehaviour {
     void LateUpdate(){
         if (Targets.Length > 0){
             this.transform.position = Targets[0].position;
-            this.transform.LookAt(Targets[0].position + Targets[0].forward);
+            this.transform.LookAt(Targets[0].position + Targets[0].forward, Vector3.up);
+            this.transform.localScale = new Vector3(BarrelLenght, BarrelLenght, 0.05f);
+            LunetaCamera.fieldOfView = FOV;
             View.position = Targets[0].GetChild(0).position;
             View.rotation = Targets[0].GetChild(0).rotation;
             Vector3 Scale = Targets[0].GetChild(0).lossyScale;
