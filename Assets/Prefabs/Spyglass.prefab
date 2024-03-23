@@ -317,6 +317,7 @@ MonoBehaviour:
   GrabAnim: SpyglassHold
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
+  Holdable: 1
   MultiTask: 0
   Switchable: 0
   GrabAudio: {fileID: 0}
@@ -515,6 +516,7 @@ MonoBehaviour:
   GrabAnim: SpyglassHandle
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
+  Holdable: 1
   MultiTask: 0
   Switchable: 0
   GrabAudio: {fileID: 0}
@@ -588,7 +590,7 @@ MonoBehaviour:
   - GenericDrop3
   Rig: {fileID: 0}
   HeldBy: {fileID: 0}
-  GrabSmooth: 25
+  GrabSmooth: 10
   ThrownVelocity: {x: 0, y: 0, z: 0}
   Handle: {fileID: 4243927288832839763}
   Holder: {fileID: 2949119664450529583}

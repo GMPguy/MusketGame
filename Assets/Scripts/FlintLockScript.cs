@@ -16,8 +16,10 @@ public class FlintLockScript : ItemScript {
     public float[] triggerRot, cockRot, frizzenRot = {0.5f, -90f, 90f};
     bool triggerPull = false;
     public float[] loadedPowder, rrPos = {0f, 0f};
-    float cockPosition , prevCock, prevFrizzen, fired, heat, rrSlide, boreThreshold;
+    float cockPosition , prevCock, prevFrizzen, heat, rrSlide;
+    public float fired = 2f;
     int ignite, rrState = 0;
+    float[] boreThreshold;
 
     [System.Serializable] public struct rrFrame {
         public Vector3 rrPos;
@@ -29,8 +31,8 @@ public class FlintLockScript : ItemScript {
     public string insertedBullet = "";
 
     protected override void ItemStart() {
-        if(Slimend.name == "PistolBore") boreThreshold = 0.1f;
-        else boreThreshold = 0.3f;
+        if(Slimend.name == "PistolBore") boreThreshold = new[]{0.1f, 0.9f};
+        else boreThreshold = new[]{0.3f, 1f};
     }
 
     protected override void ItemUpdate(){
@@ -67,12 +69,40 @@ public class FlintLockScript : ItemScript {
 
     void gunMechanics(){
 
+        // trigger
         trigger.localEulerAngles = new Vector3(Mathf.Lerp(triggerRot[1], triggerRot[2], triggerRot[0]), 0f, 0f);
-        cock.transform.localEulerAngles = new Vector3(Mathf.Lerp(cockRot[1], cockRot[2], cockRot[0]), 0f, 0f);
-        frizzen.transform.localEulerAngles = new Vector3(Mathf.Lerp(frizzenRot[1], frizzenRot[2], frizzenRot[0]), 0f, 0f);
-        powder.localScale = Vector3.one * Mathf.Clamp(loadedPowder[0], 0f, 1f);
+        if(triggerRot[0] > 0.75f && !triggerPull){
+            triggerPull = true;
+            if(fired > 1f && cockPosition < 0.1f) {
+                fired = 1f;
+                cock.isActive = frizzen.isActive = false;
+            }
+        } else if (triggerRot[0] < 0.25f && triggerPull){
+            triggerPull = false;
+        }
 
-        // Ramming rod
+        RammingRod();
+        if(fired > 1f){
+            // Ignition
+            if(heat > 0f){
+                heat -= Time.deltaTime;
+            } else if(heat <= 0f && ignite != 0){
+                cock.isActive = frizzen.isActive = true;
+                if(ignite == 1) FireGun();
+                ignite = 0;
+            }
+            Cock(fired);
+            Frizzen(fired);
+        } else {
+            fired -= Time.deltaTime*30f;
+            Cock(fired);
+            Frizzen(fired);
+            if(fired <= 0f) fired = 2f;
+        }
+
+    }
+
+    void RammingRod(){
         if(rrState == 0) rammingRod.transform.localPosition = Vector3.Lerp(rrPositions[0].rrPos, rrPositions[1].rrPos, rrPos[0]/rrPos[1]);
         else if(rrState == 2) rammingRod.transform.localPosition = Vector3.Lerp(rrPositions[3].rrPos, rrPositions[4].rrPos, rrPos[0]/rrPos[1]);
 
@@ -155,21 +185,11 @@ public class FlintLockScript : ItemScript {
                 }
             }
         }
+    }
 
-        // trigger
-        if(triggerRot[0] > 0.75f && !triggerPull){
-            triggerPull = true;
-            if(fired <= 0f && cockPosition < 0.1f) {
-                fired = 1f;
-                cock.isActive = frizzen.isActive = false;
-            }
-        } else if (triggerRot[0] < 0.25f && triggerPull){
-            triggerPull = false;
-        }
-
-        if(fired <= 0f){
-
-            // Cock
+    void Cock(float fired){
+        cock.transform.localEulerAngles = new Vector3(Mathf.Lerp(cockRot[1], cockRot[2], cockRot[0]), 0f, 0f);
+        if(fired > 1f){
             if(cock.GetComponent<GrabPoint>().GrabStatus == 1) cockRot[0] = Mathf.Clamp(cockRot[0] + Vector3.Dot(this.transform.forward, cock.HandVector[1])*5f, 0f, 0.5f + (0.5f * frizzenRot[0]));
             else cockRot[0] = Mathf.MoveTowards(cockRot[0], Mathf.Clamp(cockPosition, 0f, 0.5f + frizzenRot[0]*0.5f), Time.deltaTime*10f);
 
@@ -180,29 +200,24 @@ public class FlintLockScript : ItemScript {
                 prevCock = cockPosition;
                 ItemSound.PlayAudio("GunCock", 1f, 0, cock.transform.GetChild(0).position);
             }
+        } else {
+            cockRot[0] = Mathf.Lerp(1f, 0f, fired);
+            cockPosition = 1f;
+        }
+    }
 
-            // Frizzen
+    void Frizzen(float fired){
+        frizzen.transform.localEulerAngles = new Vector3(Mathf.Lerp(frizzenRot[1], frizzenRot[2], frizzenRot[0]), 0f, 0f);
+        powder.localScale = Vector3.one * Mathf.Clamp(loadedPowder[0], 0f, 1f);
+        if(fired > 1f){
             if(frizzen.GetComponent<GrabPoint>().GrabStatus == 1) frizzenRot[0] = Mathf.Clamp(frizzenRot[0] + Vector3.Dot(this.transform.forward, frizzen.HandVector[1])*20f, 0f, 1f);
             else if (frizzenRot[0] < 0.9f) frizzenRot[0] = Mathf.MoveTowards(frizzenRot[0], 0f, Time.deltaTime*10f);
 
-            if((frizzenRot[0] <= 0f && prevFrizzen != 0f) || (frizzenRot[0] >= 1f && prevFrizzen != 1f)){
+            if((frizzenRot[0] <= 0f && prevFrizzen != 0f) || (frizzenRot[0] >= 0.9f && prevFrizzen < 0.9f)){
                 ItemSound.PlayAudio("GunFrissen", 1f, 0, cock.transform.GetChild(0).position);
                 prevFrizzen = frizzenRot[0];
             }
-
-            // Ignition
-            if(heat > 0f){
-                heat -= Time.deltaTime;
-            } else if(heat <= 0f && ignite != 0){
-                cock.isActive = frizzen.isActive = true;
-                if(ignite == 1) FireGun();
-                ignite = 0;
-            }
-
         } else {
-
-            fired -= Time.deltaTime*30f;
-            cockRot[0] = Mathf.Lerp(1f, 0f, fired);
             if(frizzenRot[0] < 0.9f) {
                 frizzenRot[0] = Mathf.Lerp(1f, 0f, fired*2f);
                 if(ignite == 0) {
@@ -221,9 +236,8 @@ public class FlintLockScript : ItemScript {
                 ignite = 2;
                 ItemSound.PlayAudio("GunEmpty", 1f, 1, cock.transform.GetChild(0).position);
             }
-            cockPosition = 1f;
+            prevFrizzen = 1f;
         }
-
     }
 
     public void FireGun(){
@@ -261,7 +275,7 @@ public class FlintLockScript : ItemScript {
         if(((What == "Cartridge" || What == "Wad") && insertedBullet == "") || (What == "Bullet" && insertedBullet == "Wad")) 
             permToLoad = true;
 
-        if(permToLoad && (rrState == 0 || rrState == 4) && Vector3.Distance(Where, Slimend.position) < boreThreshold){
+        if(permToLoad && (rrState == 0 || rrState == 4) && Vector3.Distance(Where, Slimend.position) < boreThreshold[0]){
 
             insertedBullet = What;
             string insertSound = "";
@@ -284,7 +298,7 @@ public class FlintLockScript : ItemScript {
             insertedBullet = What;
             Slimend.GetChild(0).localPosition = Vector3.back * (1f-insertBullet) * rrPos[1];
             if(insertSound != "") ItemSound.PlayAudio(insertSound, 1f, 1, Slimend.position);
-            Slimend.transform.GetChild(0).localScale = Vector3.one;
+            Slimend.transform.GetChild(0).localScale = Vector3.one * boreThreshold[1];
             foreach (Transform GetLoad in Slimend.transform.GetChild(0)) {
                 if(GetLoad.name == insertedBullet) GetLoad.localScale = Vector3.one;
                 else GetLoad.localScale = Vector3.zero;
