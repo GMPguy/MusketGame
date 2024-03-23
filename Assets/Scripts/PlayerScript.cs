@@ -173,10 +173,12 @@ public class PlayerScript : MonoBehaviour {
                 GameObject[] getObjects = GameObject.FindGameObjectsWithTag(gpTag[GP]);
                 float nearest = Mathf.Infinity;
                 GameObject potential = null;
+                bool holdinsmth = false;
+                if(CaughtObjects[Hand*2 + (GP+1)%2] && CaughtObjects[Hand*2 + (GP+1)%2].GetComponent<GrabPoint>().Holdable) holdinsmth = true;
                 for(int po = 0; po < getObjects.Length; po++){
                     GrabPoint tGP = getObjects[po].GetComponent<GrabPoint>();
                     float dist = tGP.checkForDist(ActualHands[Hand].position);
-                    if(dist <= tGP.GrabDistance && dist <= nearest && tGP.checkForGrab(ActualHands[Hand].position)) {
+                    if(dist <= tGP.GrabDistance && dist <= nearest && tGP.checkForGrab(ActualHands[Hand].position, holdinsmth)) {
                         potential = getObjects[po];
                         nearest = dist;
                     }

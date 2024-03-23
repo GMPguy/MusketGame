@@ -29,7 +29,7 @@ public class LunetaScript : MonoBehaviour {
             Scale.y *= 1.01f;
             View.localScale = Scale;
             float[] Eyes = { Vector3.Dot(Head.position - Targets[0].position, Head.right) / 2f, Vector3.Dot(Head.position - Targets[0].position, Head.up) / 2f};
-            LunetaCamera.transform.LookAt(this.transform.position + (this.transform.position - (Head.position+(Head.right*-Eyes[0])+(Head.up*-Eyes[1]))), Vector3.up);
+            LunetaCamera.transform.LookAt(this.transform.position + (this.transform.position - (Head.position+(Head.right*-Eyes[0])+(Head.up*-Eyes[1]))), Head.up);
         }
     }
 

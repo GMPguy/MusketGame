@@ -14,6 +14,7 @@ public class SoundScript : MonoBehaviour {
     }
     
     public void PlayAudio(string AudioName, float Volume = 1f, int Importance = 0, Vector3 AudioPos = default){
+        if(!Sound) Sound = this.GetComponent<AudioSource>();
         if(!Sound.isPlaying) SoundID = -9999;
         if(Importance >= SoundID && AudioName != ""){
             SoundID = Importance;

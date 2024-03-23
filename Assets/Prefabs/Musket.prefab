@@ -133,6 +133,7 @@ MonoBehaviour:
   GrabAnim: FlintlockHandle
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
+  Holdable: 1
   MultiTask: 0
   Switchable: 1
   GrabAudio: {fileID: 0}
@@ -238,7 +239,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -357,6 +358,7 @@ MonoBehaviour:
   GrabAnim: FlintlockHold
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
+  Holdable: 1
   MultiTask: 0
   Switchable: 1
   GrabAudio: {fileID: 0}
@@ -554,6 +556,7 @@ MonoBehaviour:
   - GunDrop3
   Rig: {fileID: 0}
   HeldBy: {fileID: 0}
+  GrabSmooth: 10
   ThrownVelocity: {x: 0, y: 0, z: 0}
   Bullet: {fileID: 5262343035817461762, guid: 1e68eb2a7b915c44a94e9e95a07c9317, type: 3}
   Handle: {fileID: 556752513386396038}
@@ -715,7 +718,8 @@ MonoBehaviour:
   GrabAnim: 
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
-  MultiTask: 0
+  Holdable: 0
+  MultiTask: 1
   Switchable: 0
   GrabAudio: {fileID: 0}
   GrabAudioClips: []
@@ -5961,7 +5965,8 @@ MonoBehaviour:
   GrabAnim: 
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
-  MultiTask: 0
+  Holdable: 0
+  MultiTask: 1
   Switchable: 0
   GrabAudio: {fileID: 0}
   GrabAudioClips: []
@@ -11189,7 +11194,8 @@ MonoBehaviour:
   GrabAnim: 
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 4280055508710325887}
-  MultiTask: 0
+  Holdable: 0
+  MultiTask: 1
   Switchable: 0
   GrabAudio: {fileID: 0}
   GrabAudioClips: []

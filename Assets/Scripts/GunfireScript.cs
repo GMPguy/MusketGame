@@ -20,6 +20,8 @@ public class GunfireScript : MonoBehaviour {
     List<Vector3> Laser;
 
     void Start(){
+        Speeds[0] = Mathf.Lerp(Speeds[0], Speeds[1], Power);
+        Distances[0] = Mathf.Lerp(Distances[0], Distances[1], Power);
         Laser = new List<Vector3>();
         ParticleSystem.EmissionModule mSmoke = Smoke.emission;
         mSmoke.rateOverTime = Mathf.Lerp(25, 500, Power);
@@ -32,6 +34,7 @@ public class GunfireScript : MonoBehaviour {
             this.GetComponent<AudioSource>().Play();
         } else {
             Bullet.localScale = Vector3.zero;
+            Bullet.transform.Rotate(Random.Range(.5f, .5f), Random.Range(-.5f, .5f), Random.Range(-.5f, .5f) * MaxAngle);
             Destroy(Bullet.GetChild(0).gameObject);
             Lifetime = 10f;
             State = 1;
@@ -45,7 +48,8 @@ public class GunfireScript : MonoBehaviour {
 
             case 0:
                 Lifetime += Time.deltaTime;
-                Bullet.position += (Bullet.forward*(Mathf.Lerp(Speeds[0], Speeds[1], Power)*Time.deltaTime)) + (Vector3.down * (Gravity*Lifetime*Time.deltaTime));
+                float mainSpeed = Mathf.Lerp(Speeds[0], 0f, (Vector3.Distance(Bullet.position, Origin) - Distances[0]) / (Distances[0]*3f));
+                Bullet.position += (Bullet.forward*mainSpeed*Time.deltaTime) + (Vector3.down * (Gravity*Lifetime*Time.deltaTime));
                 Laser.Add(PrevPos);
                 Laser.Add(Bullet.position);
 
@@ -68,7 +72,7 @@ public class GunfireScript : MonoBehaviour {
 
     void Hit(Collider Victim = null, Vector3[] hitPoints = default){
 
-        float Lethality = Mathf.Lerp(1f, 0f, (Vector3.Distance(Origin, Bullet.position)-Mathf.Lerp(Distances[0], Distances[1], Power)) / Mathf.Lerp(Distances[0], Distances[1], Power));
+        float Lethality = Mathf.Lerp(1f, 0f, (Vector3.Distance(Origin, Bullet.position)-Distances[0]) / Distances[0]);
 
         if(State == 0){
             bool hasHit = false;

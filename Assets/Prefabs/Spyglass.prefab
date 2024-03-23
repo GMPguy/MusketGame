@@ -582,9 +582,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   simpleHandle: {fileID: 0}
   ItemSound: {fileID: 8664358242178266371}
-  DropSounds: []
+  DropSounds:
+  - GenericDrop1
+  - GenericDrop2
+  - GenericDrop3
   Rig: {fileID: 0}
   HeldBy: {fileID: 0}
+  GrabSmooth: 25
   ThrownVelocity: {x: 0, y: 0, z: 0}
   Handle: {fileID: 4243927288832839763}
   Holder: {fileID: 2949119664450529583}
@@ -761,6 +765,9 @@ MonoBehaviour:
   Sounds:
   - {fileID: 8300000, guid: db205f69de730874596f9e49401a14f9, type: 3}
   - {fileID: 8300000, guid: 0c3c9913cadeb9941812f6cb1486839e, type: 3}
+  - {fileID: 8300000, guid: cd924614314123744b2513e5e93bc0f0, type: 3}
+  - {fileID: 8300000, guid: 8db1f8fec6ca351478be85d12529a5aa, type: 3}
+  - {fileID: 8300000, guid: 137cf94be933c414599dce02fd6b8a6e, type: 3}
 --- !u!1 &9139277834359216442
 GameObject:
   m_ObjectHideFlags: 0

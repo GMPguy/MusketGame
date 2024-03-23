@@ -230,6 +230,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1f0bf596f48d857488d5076a6f708219, type: 3}
   - {fileID: 8300000, guid: 35f92b33f6fdba34c8a3a148cf599387, type: 3}
   - {fileID: 8300000, guid: 98afacaa7fe8c744488ced30e8c81896, type: 3}
+  - {fileID: 8300000, guid: db205f69de730874596f9e49401a14f9, type: 3}
 --- !u!1 &1517714189357048397
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +303,7 @@ MonoBehaviour:
   DropSounds: []
   Rig: {fileID: 0}
   HeldBy: {fileID: 0}
+  GrabSmooth: 25
   ThrownVelocity: {x: 0, y: 0, z: 0}
   Powder: {fileID: 6754938167978343208}
   Spent: {fileID: 5068607765084194121}
@@ -361,6 +363,7 @@ MonoBehaviour:
   GrabAnim: Cartridge
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
+  Holdable: 1
   MultiTask: 1
   Switchable: 1
   GrabAudio: {fileID: 0}

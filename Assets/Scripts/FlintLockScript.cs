@@ -16,7 +16,7 @@ public class FlintLockScript : ItemScript {
     public float[] triggerRot, cockRot, frizzenRot = {0.5f, -90f, 90f};
     bool triggerPull = false;
     public float[] loadedPowder, rrPos = {0f, 0f};
-    float cockPosition , prevCock, prevFrizzen, fired, heat, rrSlide = 0f;
+    float cockPosition , prevCock, prevFrizzen, fired, heat, rrSlide, boreThreshold;
     int ignite, rrState = 0;
 
     [System.Serializable] public struct rrFrame {
@@ -27,6 +27,11 @@ public class FlintLockScript : ItemScript {
     Vector3[] prevRR = {Vector3.zero, Vector3.zero};
     public float insertBullet = 1f;
     public string insertedBullet = "";
+
+    protected override void ItemStart() {
+        if(Slimend.name == "PistolBore") boreThreshold = 0.1f;
+        else boreThreshold = 0.3f;
+    }
 
     protected override void ItemUpdate(){
         gunHandling();
@@ -256,7 +261,7 @@ public class FlintLockScript : ItemScript {
         if(((What == "Cartridge" || What == "Wad") && insertedBullet == "") || (What == "Bullet" && insertedBullet == "Wad")) 
             permToLoad = true;
 
-        if(permToLoad && (rrState == 0 || rrState == 4) && Vector3.Distance(Where, Slimend.position) < 0.3f){
+        if(permToLoad && (rrState == 0 || rrState == 4) && Vector3.Distance(Where, Slimend.position) < boreThreshold){
 
             insertedBullet = What;
             string insertSound = "";

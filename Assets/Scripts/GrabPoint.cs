@@ -10,6 +10,7 @@ public class GrabPoint : MonoBehaviour {
     public string GrabAnim;
     public Vector3 GrabOffset;
     public Collider GrabCollider;
+    public bool Holdable = true;
     public bool MultiTask = false;
     public bool Switchable = false;
     public AudioSource GrabAudio;
@@ -31,8 +32,8 @@ public class GrabPoint : MonoBehaviour {
         if(isItem != null && isItem.ItemSound) GrabAudio = isItem.ItemSound.GetComponent<AudioSource>();
     }
 
-    public bool checkForGrab(Vector3 tPos){
-        if (Hand == null && GrabStatus == 0 && checkForDist(tPos) <= GrabDistance) return true;
+    public bool checkForGrab(Vector3 tPos, bool HoldingSMTh = false){
+        if (Hand == null && GrabStatus == 0 && checkForDist(tPos) <= GrabDistance && !(HoldingSMTh && Holdable)) return true;
         else return false;
     }
 
@@ -52,10 +53,9 @@ public class GrabPoint : MonoBehaviour {
             GrabStatus = 1; 
             Changed = true;
             if(isItem) isItem.HeldBy = Master;
-            else if(GrabAudio && GrabAudioClips.Length > 0) {
-                if(isItem){
-                    isItem.ItemSound.PlayAudio(GrabAudioClips[(int)Random.Range(0f, GrabAudioClips.Length-.1f)].name, 1f, 0, this.transform.position);
-                } else {
+            if(GrabAudio && GrabAudioClips.Length > 0) {
+                if(isItem) isItem.ItemSound.PlayAudio(GrabAudioClips[(int)Random.Range(0f, GrabAudioClips.Length-.1f)].name, 1f, 0, this.transform.position);
+                else {
                     GrabAudio.transform.position = Hand.position;
                     GrabAudio.clip = GrabAudioClips[(int)Random.Range(0f, GrabAudioClips.Length-.1f)];
                     GrabAudio.volume = 1f;
