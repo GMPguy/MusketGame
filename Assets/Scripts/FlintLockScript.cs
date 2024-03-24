@@ -129,14 +129,13 @@ public class FlintLockScript : ItemScript {
             if(rrState == 0 || rrState == 2){
                 float rrpVector = 0f;
                 if(rammingRod.GrabStatus == 1){
-                    if(rammingRod.Changed && rrPos[0] < 0.1f){
+                    if(rammingRod.Changed && rrPos[0] < 0.01f*rrPos[1]){
                         rammingRod.Changed = false;
-                        rrPos[0] = 0.1f;
+                        rrPos[0] = 0.01f*rrPos[1];
                     }
                     rrSlide = 2f;
                     rrpVector = Vector3.Dot(this.transform.forward, rammingRod.HandVector[1]);
                     rrPos[0] = Mathf.Clamp(rrPos[0] + rrpVector, 0f, rrPos[1]*2f);
-                    //rammingRod.Master.handAnimate("FlintlockHold", rammingRod.HandIndex, new Vector3[]{rammingRod.transform.position, rammingRod.transform.eulerAngles});
                     if(rrPos[0] > rrPos[1]){
                         prevRR = new[]{rammingRod.transform.localPosition, rammingRod.transform.localEulerAngles};
                         rrPos[0] = 0f;
@@ -146,19 +145,19 @@ public class FlintLockScript : ItemScript {
                     }
                 } else {
                     rrSlide = Mathf.Clamp(rrSlide - Time.deltaTime, 0f, 2f);
-                    if(rrPos[0] > 0.1f) rrpVector = Mathf.Lerp(Time.deltaTime*2f, 0f, rrSlide*2f) * Mathf.Clamp((Vector3.Angle(this.transform.forward, Vector3.down)-90f)/90f, 0f, 1f);
+                    if(rrPos[0] > 0.01f*rrPos[1]) rrpVector = Mathf.Lerp(Time.deltaTime*2f, 0f, rrSlide*2f) * Mathf.Clamp((Vector3.Angle(this.transform.forward, Vector3.down)-90f)/90f, 0f, 1f);
                     else rrpVector = 0f;
                     rrPos[0] = Mathf.Clamp(rrPos[0] - rrpVector, 0f, 1f);
                 }
                 if(rrpVector != 0f) {
                     if(rrPos[0] > 0f) {
-                        if(rrPos[0] > 0.1f) ItemSound.PlayAudio("_GunRammingRod", Mathf.Clamp(Mathf.Abs(rrpVector*10f), 0f, 1f), -1, rammingRod.transform.position);
+                        if(rrPos[0] > 0.01f*rrPos[1]) ItemSound.PlayAudio("_GunRammingRod", Mathf.Clamp(Mathf.Abs(rrpVector*10f), 0f, 1f), -1, rammingRod.transform.position);
                         if(rrState == 2){
                             insertBullet = Mathf.Clamp(insertBullet, 0f, rrPos[0]/rrPos[1]);
                             Slimend.GetChild(0).localPosition = Vector3.back * (1f-insertBullet) * rrPos[1];
                         }
                     } else if (rrState == 2) {
-                        rrPos[0] = 0.1f;
+                        rrPos[0] = 0.01f*rrPos[1];
                         ItemSound.PlayAudio("GunRammingRod3", 1f, 1, rammingRod.transform.position);
                         rammingRod.Drop();
                     }
@@ -181,7 +180,7 @@ public class FlintLockScript : ItemScript {
                 
                 if(rrPos[0] >= rrPos[1]) {
                     rrState = (rrState+1)%4;
-                    rrPos[0] = rrPos[1] * 0.9f;
+                    rrPos[0] = rrPos[1] * 0.975f;
                 }
             }
         }
@@ -244,13 +243,13 @@ public class FlintLockScript : ItemScript {
         if((insertedBullet == "Cartridge" || insertedBullet == "Bullet") && insertBullet <= 0.1f){
             float firePower = -1f;
             Vector3[] orgPos = new[]{Slimend.position, Slimend.forward};
-            if(loadedPowder[1] >= 3f){
+            if(loadedPowder[1] >= 2f){
                 insertedBullet = "";
                 this.transform.Rotate(Vector3.right*-30f);
                 this.transform.position += Vector3.up/10f;
                 touching = new[]{0.1f, 1f};
                 Slimend.GetChild(0).localScale = Vector3.zero;
-                firePower = (loadedPowder[1]-3f)/3f;
+                firePower = (loadedPowder[1]-2f)/4f;
             } else if (loadedPowder[1] > 0f) {
                 this.transform.Rotate(Vector3.right*-10f);
                 insertedBullet = "Jam";

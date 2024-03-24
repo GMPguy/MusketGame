@@ -46,7 +46,7 @@ public class ItemScript : MonoBehaviour {
     }
 
     void OnCollisionStay(Collision collision){
-        touching = new float[]{0.01f, 0.2f};
+        if(collision.collider.gameObject.layer != 3) touching = new float[]{0.01f, 0.2f};
         ItemCollisionStay(collision);
     }
 
