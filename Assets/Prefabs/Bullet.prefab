@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7103431320142048332}
   - component: {fileID: 7683925595130153354}
   - component: {fileID: 3483989945971645313}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bullet
   m_TagString: Object_Pinch
   m_Icon: {fileID: 0}
@@ -135,6 +135,7 @@ MonoBehaviour:
   GrabAnim: BulletGrab
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
+  Holdable: 1
   MultiTask: 0
   Switchable: 0
   GrabAudio: {fileID: 3205721599439332940}

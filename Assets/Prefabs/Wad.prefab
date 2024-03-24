@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 6050580786798356936}
   - component: {fileID: 7206863759904547363}
   - component: {fileID: 6321716428071596492}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wad
   m_TagString: Object_Pinch
   m_Icon: {fileID: 0}
@@ -251,6 +251,7 @@ MonoBehaviour:
   GrabAnim: BulletGrab
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
+  Holdable: 1
   MultiTask: 0
   Switchable: 0
   GrabAudio: {fileID: 5709883593378378729}

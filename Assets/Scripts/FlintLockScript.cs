@@ -147,7 +147,7 @@ public class FlintLockScript : ItemScript {
                     rrSlide = Mathf.Clamp(rrSlide - Time.deltaTime, 0f, 2f);
                     if(rrPos[0] > 0.01f*rrPos[1]) rrpVector = Mathf.Lerp(Time.deltaTime*2f, 0f, rrSlide*2f) * Mathf.Clamp((Vector3.Angle(this.transform.forward, Vector3.down)-90f)/90f, 0f, 1f);
                     else rrpVector = 0f;
-                    rrPos[0] = Mathf.Clamp(rrPos[0] - rrpVector, 0f, 1f);
+                    rrPos[0] = Mathf.Clamp(rrPos[0] - rrpVector, 0f, rrPos[1]);
                 }
                 if(rrpVector != 0f) {
                     if(rrPos[0] > 0f) {
@@ -165,7 +165,7 @@ public class FlintLockScript : ItemScript {
                     ItemSound.PlayAudio("");
                 }
             } else {
-                rrPos[0] += Time.deltaTime;
+                rrPos[0] += Time.deltaTime*2f;
 
                 int[] s = {2, 4};
                 if(rrState == 3) s = new[] {5, 1};
