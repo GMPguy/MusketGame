@@ -14,6 +14,7 @@ public class CartridgeScript : ItemScript {
     public Transform Head;
     public ParticleSystem Sip;
     ParticleSystem.EmissionModule sipEmission;
+    public LayerMask focusGunLayer;
 
     protected override void ItemStart() {
         if(!isBottle) PowderGrams = new[]{Random.Range(7f, 7.9f), 8f};
@@ -64,7 +65,7 @@ public class CartridgeScript : ItemScript {
                 float sipPower = Mathf.Lerp(Time.deltaTime * 7f, Time.deltaTime / 2f, sipAngle[0] / sipAngle[1]);
                 PowderGrams[0] -= sipPower;
                 Ray Checkpowder = new (Sip.transform.position, Sip.transform.forward);
-                if(Physics.Raycast(Checkpowder, out RaycastHit Hitpowder, 0.3f) && Hitpowder.collider.name == "MusketBody"){
+                if(Physics.Raycast(Checkpowder, out RaycastHit Hitpowder, 0.3f, focusGunLayer) && Hitpowder.collider.name == "MusketBody"){
                     FlintLockScript fs = Hitpowder.collider.transform.parent.GetComponent<FlintLockScript>();
                     if (Vector3.Distance(Hitpowder.point, fs.powder.position) < 0.05f && fs.frizzenRot[0] > 0f) fs.loadedPowder[0] = Mathf.Clamp(fs.loadedPowder[0] + sipPower, 0f, 1f);
                     else if (Vector3.Distance(Hitpowder.point, fs.Slimend.position) < 0.1f && fs.insertedBullet == "") fs.loadedPowder[1] += sipPower;

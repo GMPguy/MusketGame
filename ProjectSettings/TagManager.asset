@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Object_Grab
   - Object_Pinch
+  - Tree
   layers:
   - Default
   - TransparentFX

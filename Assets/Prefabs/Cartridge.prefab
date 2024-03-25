@@ -313,6 +313,9 @@ MonoBehaviour:
   Ripped: 0
   Head: {fileID: 0}
   Sip: {fileID: 5834063896900823067}
+  focusGunLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &2576442310231301995
 GameObject:
   m_ObjectHideFlags: 0

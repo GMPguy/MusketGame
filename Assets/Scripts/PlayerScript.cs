@@ -105,17 +105,19 @@ public class PlayerScript : MonoBehaviour {
                     Collider[] pc =Physics.OverlapCapsule(this.transform.position+(Vector3.up*0.25f)+dmv, Head.transform.position-(Vector3.up*0.25f)+dmv, 0.1f, MovementLayerMask);
                     if(pc.Length <= 0) this.transform.position += dmv;
                 }
-                if(Mathf.Abs(thumbs[1].x) > 0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x-0.5f)*2f * (Time.deltaTime * RotationSpeed));
-                else if (Mathf.Abs(thumbs[1].x) < -0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x+0.5f)*2f * (Time.deltaTime * RotationSpeed));
+                if(Mathf.Abs(thumbs[1].x) > 0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x * (Mathf.Abs(thumbs[1].x)-0.5f))*2f * (Time.deltaTime * RotationSpeed));
+                //else if (Mathf.Abs(thumbs[1].x) < -0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x+0.5f)*2f * (Time.deltaTime * RotationSpeed));
                 
                 if(Vector3.Distance(this.transform.position, Footstep) > 1f){
                     Footstep = this.transform.position;
                     Ray checkFS = new (this.transform.position + Vector3.up/2f, Vector3.down);
                     if(Physics.Raycast(checkFS, out RaycastHit FShit, 0.6f, MovementLayerMask) && FShit.collider.GetComponent<MaterialScript>()){
                         MaterialScript ms = FShit.collider.GetComponent<MaterialScript>();
-                        PlayerAudio.PlayAudio(ms.Footsteps[FootstepID].name, 1f, 0, this.transform.position);
-                        FootstepID = (FootstepID+1)%5;
-                        Footstep = this.transform.position;
+                        if(ms.Footsteps.Length > 0){
+                            PlayerAudio.PlayAudio(ms.Footsteps[FootstepID].name, 1f, 0, this.transform.position);
+                            FootstepID = (FootstepID+1)%5;
+                            Footstep = this.transform.position;
+                        }
                     }
                 }
                 break;

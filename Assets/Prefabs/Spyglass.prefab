@@ -314,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isItem: {fileID: 8664358242177445125}
   isActive: 1
-  GrabDistance: 0.1
+  GrabDistance: 0.25
   GrabAnim: SpyglassHold
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}

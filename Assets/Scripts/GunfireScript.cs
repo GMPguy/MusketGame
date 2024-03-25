@@ -12,6 +12,7 @@ public class GunfireScript : MonoBehaviour {
     float Lifetime;
     public AudioClip[] FireSounds;
     public GameObject WhoShot;
+    public PhysicMaterial BulletMaterial;
 
     public Transform Bullet;
     public ParticleSystem Smoke;
@@ -101,6 +102,7 @@ public class GunfireScript : MonoBehaviour {
                 Rigidbody bRig = Bullet.gameObject.AddComponent<Rigidbody>();
                 bRig.collisionDetectionMode = CollisionDetectionMode.Continuous;
                 bRig.velocity = Bullet.transform.forward;
+                bCol.material = BulletMaterial;
             }
 
             for(int dl = 0; dl < Laser.ToArray().Length-1; dl+=2){

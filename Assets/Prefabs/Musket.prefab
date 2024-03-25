@@ -129,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isItem: {fileID: 556752514296545229}
   isActive: 1
-  GrabDistance: 0.2
+  GrabDistance: 0.25
   GrabAnim: FlintlockHandle
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
@@ -354,7 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isItem: {fileID: 556752514296545229}
   isActive: 1
-  GrabDistance: 0.2
+  GrabDistance: 0.25
   GrabAnim: FlintlockHold
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 0}
@@ -585,6 +585,7 @@ MonoBehaviour:
   rrPos:
   - 0
   - 1
+  fired: 2
   rrPositions:
   - rrPos: {x: 0, y: 0.0196, z: 0.778}
     rrRot: {x: 270, y: 0, z: 0}

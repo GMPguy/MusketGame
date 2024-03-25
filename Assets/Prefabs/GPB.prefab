@@ -152,6 +152,9 @@ MonoBehaviour:
   Ripped: 0
   Head: {fileID: 0}
   Sip: {fileID: 4791708134865321450}
+  focusGunLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!54 &7696041807694989710
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5263,6 +5266,7 @@ MonoBehaviour:
   GrabAnim: GPBhold
   GrabOffset: {x: 0, y: 0, z: 0}
   GrabCollider: {fileID: 4546466421703312725}
+  Holdable: 1
   MultiTask: 1
   Switchable: 1
   GrabAudio: {fileID: 0}

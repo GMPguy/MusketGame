@@ -160,6 +160,7 @@ public class FlintLockScript : ItemScript {
                         rrPos[0] = 0.01f*rrPos[1];
                         ItemSound.PlayAudio("GunRammingRod3", 1f, 1, rammingRod.transform.position);
                         rammingRod.Drop();
+                        insertBullet = 0f;
                     }
                 } else if (ItemSound.clip && ItemSound.clip.name == "GunRammingRod"){
                     ItemSound.PlayAudio("");
@@ -240,7 +241,7 @@ public class FlintLockScript : ItemScript {
     }
 
     public void FireGun(){
-        if((insertedBullet == "Cartridge" || insertedBullet == "Bullet") && insertBullet <= 0.1f){
+        if((insertedBullet == "Cartridge" || insertedBullet == "Bullet") && insertBullet <= 0.1f*rrPos[1]){
             float firePower = -1f;
             Vector3[] orgPos = new[]{Slimend.position, Slimend.forward};
             if(loadedPowder[1] >= 2f){
