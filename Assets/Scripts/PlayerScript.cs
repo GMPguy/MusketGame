@@ -10,7 +10,7 @@ public class PlayerScript : MonoBehaviour {
     public Transform Head;
     public Vector3 MovementVector; 
     Vector3 prevPos, prevHead;
-    readonly float Speed = 2f;
+    readonly float Speed = 3f;
     readonly float RotationSpeed = 90f;
     // Movement
 
@@ -100,11 +100,13 @@ public class PlayerScript : MonoBehaviour {
                 Vector3 normalFoward = new Vector3(Head.forward.x, 0f, Head.forward.z);
                 Vector3 normalRight = new Vector3(Head.right.x, 0f, Head.right.z);
                 if(thumbs[0].magnitude > 0.5f) {
+                    thumbs[0] = thumbs[0] * (thumbs[0].magnitude-0.5f) * 2f;
                     Vector3 dmv = (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
                     Collider[] pc =Physics.OverlapCapsule(this.transform.position+(Vector3.up*0.25f)+dmv, Head.transform.position-(Vector3.up*0.25f)+dmv, 0.1f, MovementLayerMask);
                     if(pc.Length <= 0) this.transform.position += dmv;
                 }
-                if(thumbs[1].magnitude > 0.5f) this.transform.Rotate(Vector3.up * thumbs[1].x *  (Time.deltaTime * RotationSpeed));
+                if(Mathf.Abs(thumbs[1].x) > 0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x-0.5f)*2f * (Time.deltaTime * RotationSpeed));
+                else if (Mathf.Abs(thumbs[1].x) < -0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x+0.5f)*2f * (Time.deltaTime * RotationSpeed));
                 
                 if(Vector3.Distance(this.transform.position, Footstep) > 1f){
                     Footstep = this.transform.position;

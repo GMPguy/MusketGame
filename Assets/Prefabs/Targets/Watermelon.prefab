@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b13ee2ec39eff428d7c54735ff92d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroyNow: {fileID: 0}
+  DestroyNow: {fileID: 4702769527158755244, guid: c78cda82893f42f41ac79321323031cf, type: 3}
   HitEffect: {fileID: 0}
 --- !u!64 &4274908842544142870
 MeshCollider:

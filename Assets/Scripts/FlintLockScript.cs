@@ -154,7 +154,7 @@ public class FlintLockScript : ItemScript {
                         if(rrPos[0] > 0.01f*rrPos[1]) ItemSound.PlayAudio("_GunRammingRod", Mathf.Clamp(Mathf.Abs(rrpVector*10f), 0f, 1f), -1, rammingRod.transform.position);
                         if(rrState == 2){
                             insertBullet = Mathf.Clamp(insertBullet, 0f, rrPos[0]/rrPos[1]);
-                            Slimend.GetChild(0).localPosition = Vector3.back * (1f-insertBullet) * rrPos[1];
+                            Slimend.GetChild(0).localPosition = Vector3.back * (1f-insertBullet) * (rrPositions[4].rrPos.z-rrPositions[3].rrPos.z);
                         }
                     } else if (rrState == 2) {
                         rrPos[0] = 0.01f*rrPos[1];
