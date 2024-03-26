@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9171785953063345252}
   - component: {fileID: 1141906263861435247}
   - component: {fileID: 1568816478715399611}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 2769897578241607094}
   - component: {fileID: 4109083217134038608}
   - component: {fileID: 8116688349072956471}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5064,7 +5064,7 @@ GameObject:
   - component: {fileID: 1878972582642859837}
   - component: {fileID: 5838150578529260080}
   - component: {fileID: 2915065048016870291}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5228,8 +5228,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 10
-  MaxDistance: 500
+  MinDistance: 100
+  MaxDistance: 1000
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -5330,7 +5330,7 @@ GameObject:
   - component: {fileID: 1603002782564497329}
   - component: {fileID: 4747447206577357087}
   - component: {fileID: 4789544947180717787}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5445,7 +5445,7 @@ GameObject:
   - component: {fileID: 8705733023380777716}
   - component: {fileID: 5883685640243354510}
   - component: {fileID: 8549603001611978785}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5560,7 +5560,7 @@ GameObject:
   - component: {fileID: 896344894133626228}
   - component: {fileID: 3291164346608616130}
   - component: {fileID: 7194269277917474723}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5675,7 +5675,7 @@ GameObject:
   - component: {fileID: 1134444801891931062}
   - component: {fileID: 3502551059816152023}
   - component: {fileID: 8409869998252568963}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5790,7 +5790,7 @@ GameObject:
   - component: {fileID: 8177825882231496409}
   - component: {fileID: 5359324475439109495}
   - component: {fileID: 1410992126250233728}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}

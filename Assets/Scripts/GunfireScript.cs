@@ -13,6 +13,7 @@ public class GunfireScript : MonoBehaviour {
     public AudioClip[] FireSounds;
     public GameObject WhoShot;
     public PhysicMaterial BulletMaterial;
+    public bool Blank = false;
 
     public Transform Bullet;
     public ParticleSystem Smoke;
@@ -25,21 +26,21 @@ public class GunfireScript : MonoBehaviour {
         Distances[0] = Mathf.Lerp(Distances[0], Distances[1], Power);
         Laser = new List<Vector3>();
         ParticleSystem.EmissionModule mSmoke = Smoke.emission;
-        mSmoke.rateOverTime = Mathf.Lerp(25, 500, Power);
+        mSmoke.rateOverTime = Mathf.Lerp(50, 500, Power);
         Smoke.Play();
         PrevPos = Origin = this.transform.position;
-        if(Power > 0f){
+        this.GetComponent<AudioSource>().clip = FireSounds[0];
+        if(Power > 0f && !Blank){
             Bullet.parent = null;
             Fire.Play();
-            this.GetComponent<AudioSource>().clip = FireSounds[0];
             this.GetComponent<AudioSource>().Play();
+            Bullet.transform.Rotate(Random.Range(-.5f, .5f), Random.Range(-.5f, .5f), Random.Range(-.5f, .5f) * MaxAngle);
         } else {
             Bullet.localScale = Vector3.zero;
-            Bullet.transform.Rotate(Random.Range(.5f, .5f), Random.Range(-.5f, .5f), Random.Range(-.5f, .5f) * MaxAngle);
             Destroy(Bullet.GetChild(0).gameObject);
             Lifetime = 10f;
             State = 1;
-            this.GetComponent<AudioSource>().clip = FireSounds[1];
+            if(Power < 0f) this.GetComponent<AudioSource>().clip = FireSounds[1];
             this.GetComponent<AudioSource>().Play();
         }
     }
@@ -101,7 +102,7 @@ public class GunfireScript : MonoBehaviour {
                 bCol.radius = 0.019f;
                 Rigidbody bRig = Bullet.gameObject.AddComponent<Rigidbody>();
                 bRig.collisionDetectionMode = CollisionDetectionMode.Continuous;
-                bRig.velocity = Bullet.transform.forward;
+                bRig.velocity = Bullet.transform.forward * Random.Range(0f, 100f);
                 bCol.material = BulletMaterial;
             }
 

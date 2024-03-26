@@ -166,7 +166,7 @@ public class FlintLockScript : ItemScript {
                     ItemSound.PlayAudio("");
                 }
             } else {
-                rrPos[0] += Time.deltaTime*2f;
+                rrPos[0] += Time.deltaTime* (rrPos[1] / 1f);
 
                 int[] s = {2, 4};
                 if(rrState == 3) s = new[] {5, 1};
@@ -241,10 +241,12 @@ public class FlintLockScript : ItemScript {
     }
 
     public void FireGun(){
-        if((insertedBullet == "Cartridge" || insertedBullet == "Bullet") && insertBullet <= 0.1f*rrPos[1]){
+        if(insertBullet <= 0.1f*rrPos[1]){
             float firePower = -1f;
+            bool blank = true;
+            if(insertedBullet == "Cartridge" || insertedBullet == "Bullet") blank = false;
             Vector3[] orgPos = new[]{Slimend.position, Slimend.forward};
-            if(loadedPowder[1] >= 2f){
+            if(loadedPowder[1] > 2f){
                 insertedBullet = "";
                 this.transform.Rotate(Vector3.right*-30f);
                 this.transform.position += Vector3.up/10f;
@@ -253,10 +255,10 @@ public class FlintLockScript : ItemScript {
                 firePower = (loadedPowder[1]-2f)/4f;
             } else if (loadedPowder[1] > 0f) {
                 this.transform.Rotate(Vector3.right*-10f);
-                insertedBullet = "Jam";
+                if(insertedBullet != "") insertedBullet = "Jam";
                 firePower = 0f;
             } else {
-                insertedBullet = "Jam";
+                if(insertedBullet != "") insertedBullet = "Jam";
             }
             loadedPowder[1] = 0f;
             if(firePower >= 0f){
@@ -265,6 +267,7 @@ public class FlintLockScript : ItemScript {
                 Shoot.transform.position = orgPos[0];
                 Shoot.transform.forward = orgPos[1];
                 Shoot.GetComponent<GunfireScript>().Power = firePower;
+                Shoot.GetComponent<GunfireScript>().Blank = blank;
             }
         }
        

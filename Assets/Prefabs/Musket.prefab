@@ -584,7 +584,7 @@ MonoBehaviour:
   - 0
   rrPos:
   - 0
-  - 1
+  - 1.5
   fired: 2
   rrPositions:
   - rrPos: {x: 0, y: 0.0196, z: 0.778}

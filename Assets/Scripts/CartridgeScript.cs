@@ -59,10 +59,11 @@ public class CartridgeScript : ItemScript {
             Powder.localScale = new Vector3(1f,1f,PowderGrams[0]/PowderGrams[1]);
             float[] sipAngle = new float[]{Vector3.Angle(Vector3.down, this.transform.up), Mathf.Lerp(30f, 90f, PowderGrams[0]/PowderGrams[1])};
             if(sipAngle[0] < sipAngle[1]){
+                if(Sip.particleCount <= 0f) sipEmission.rateOverTime = 1000f;
+                else sipEmission.rateOverTime = Mathf.Lerp(100f, 5f, sipAngle[0] / sipAngle[1]);
                 Sip.Play();
-                sipEmission.rateOverTime = Mathf.Lerp(200f, 100f, sipAngle[0] / sipAngle[1]);
                 ItemSound.PlayAudio("_CartridgePour", 1f - (sipAngle[0] / sipAngle[1]), -1);
-                float sipPower = Mathf.Lerp(Time.deltaTime * 7f, Time.deltaTime / 2f, sipAngle[0] / sipAngle[1]);
+                float sipPower = Mathf.Lerp(Time.deltaTime * 3f, 0f, sipAngle[0] / sipAngle[1]);
                 PowderGrams[0] -= sipPower;
                 Ray Checkpowder = new (Sip.transform.position, Sip.transform.forward);
                 if(Physics.Raycast(Checkpowder, out RaycastHit Hitpowder, 0.3f, focusGunLayer) && Hitpowder.collider.name == "MusketBody"){
@@ -72,7 +73,7 @@ public class CartridgeScript : ItemScript {
                 }
             } else {
                 Sip.Stop();
-                if(Ripped >= 11f) ItemSound.PlayAudio("");
+                if(Ripped >= 11f && ItemSound.clip.name == "CartridgePour") ItemSound.PlayAudio("");
             }
 
         } else if (PowderGrams[0] <= 0f && PowderGrams[1] > 0){
