@@ -4,14 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class VRui : MonoBehaviour {
+    public UnityEvent hoverFunction;
     public UnityEvent function;
-    bool hasClicked = false;
-    virtual public void Click (float Pinch) { 
-        if(Pinch > 0.6f && !hasClicked) {
-            function.Invoke();
-            hasClicked = true;
-        } else if (Pinch < 0.3f && hasClicked) {
-            hasClicked = false;
-        }
-    }
+    virtual public void Hover () { hoverFunction.Invoke(); }
+    virtual public void Click () { function.Invoke(); }
 }

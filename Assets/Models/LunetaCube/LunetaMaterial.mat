@@ -10,8 +10,7 @@ Material:
   m_Name: LunetaMaterial
   m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords:
-  - _ALPHAMODULATE_ON
-  - _COLORADDSUBDIFF_ON
+  - _ALPHABLEND_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -71,7 +70,7 @@ Material:
     - _CameraFadingEnabled: 0
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
-    - _ColorMode: 1
+    - _ColorMode: 0
     - _Cull: 2
     - _Cutoff: 0.098
     - _DetailNormalMapScale: 1
@@ -79,7 +78,7 @@ Material:
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0
-    - _DstBlend: 10
+    - _DstBlend: 1
     - _EmissionEnabled: 0
     - _FlipbookMode: 0
     - _GlossMapScale: 1
@@ -88,7 +87,7 @@ Material:
     - _InvFade: 0.69
     - _LightingEnabled: 0
     - _Metallic: 0.495
-    - _Mode: 6
+    - _Mode: 4
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Shininess: 1
@@ -97,13 +96,13 @@ Material:
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 2
+    - _SrcBlend: 5
     - _Threshold: 0.5
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.78431374}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}

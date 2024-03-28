@@ -28,6 +28,7 @@ public class PlayerScript : MonoBehaviour {
     public float[] HandGrab = {0f, 0f};
     public bool[] hasGrabbed = {false, false};
     public bool[] Multitask = {true, true};
+    public bool[] VGCrelease = {true, true};
     public Vector3[] HandVector = {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero}; // rPos, rLocPos, rRot, lPos, lLocPos, lRot
     Vector3[] prevHandVectors = {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
 
@@ -168,13 +169,20 @@ public class PlayerScript : MonoBehaviour {
     }
 
     void Pointing(int theHand){
+        if(HandPinch[theHand] < 0.3f && VGCrelease[theHand] == false) VGCrelease[theHand] = true;
         Ray checkGui = new(ActualHands[theHand].position, ActualHands[theHand].forward);
         if(!CaughtObjects[theHand*2] && !CaughtObjects[(theHand*2)+1] && Physics.Raycast(checkGui, out RaycastHit cgHit, 1f) && cgHit.collider.GetComponent<VRui>()) {
             VRui target = cgHit.collider.GetComponent<VRui>();
             HandLasers[theHand].localScale = new Vector3(1f,1f, Vector3.Distance(ActualHands[theHand].position, cgHit.point));
             HandLasers[theHand].position = ActualHands[theHand].position;
             HandLasers[theHand].rotation = ActualHands[theHand].rotation;
-            target.Click(HandPinch[theHand]);
+            if(HandPinch[theHand] > 0.6f) {
+                target.Hover();
+                if(VGCrelease[theHand] == true){
+                    target.Click();
+                    VGCrelease[theHand] = false;
+                }
+            }
         } else {
             HandLasers[theHand].localScale = Vector3.zero;
         }
