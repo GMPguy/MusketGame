@@ -7,6 +7,7 @@ using Random=UnityEngine.Random;
 
 public class ItemScript : MonoBehaviour {
     
+    protected GameScript GS;
     public GrabPoint simpleHandle;
     public SoundScript ItemSound;
     public string[] DropSounds;
@@ -18,6 +19,7 @@ public class ItemScript : MonoBehaviour {
     public Vector3 ThrownVelocity;
 
     void Start () {
+        GS = GameObject.FindObjectOfType<GameScript>();
         Rig = this.GetComponent<Rigidbody>();
         if(simpleHandle) simpleHandle.isItem = this;
         ItemStart();

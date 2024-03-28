@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +19,7 @@ public class PlayerScript : MonoBehaviour {
     public Transform[] ActualHands;
     public Transform[] HandsVisible;
     public Animator[] HandsAnims;
+    public Transform[] HandLasers;
     // Hand visuals
 
     // Hand actions
@@ -131,6 +133,7 @@ public class PlayerScript : MonoBehaviour {
             HandsAnims[sh].SetFloat("Pinch", HandPinch[sh]);
             HandGrab[sh] = GrabDet[sh].action.ReadValue<float>();
             HandsAnims[sh].SetFloat("Grab", HandGrab[sh]);
+            Pointing(sh);
 
             if(AnimQuit[sh] > 0f) {
                 AnimQuit[sh] -= Time.deltaTime;
@@ -161,6 +164,19 @@ public class PlayerScript : MonoBehaviour {
                 if(gp.GrabAnim != "") HandAnimate(gp.GrabAnim, sh, new[]{gp.transform.position, gp.transform.eulerAngles});
                 if(!gp.isActive || (gp.tag == "Object_Grab" && gp.inchGrab < 0.1f) || (gp.tag == "Object_Pinch" && gp.inhPinch < 0.1f) ) Catch(sh, iv%2, true);
             }
+        }
+    }
+
+    void Pointing(int theHand){
+        Ray checkGui = new(ActualHands[theHand].position, ActualHands[theHand].forward);
+        if(!CaughtObjects[theHand*2] && !CaughtObjects[(theHand*2)+1] && Physics.Raycast(checkGui, out RaycastHit cgHit, 1f) && cgHit.collider.GetComponent<VRui>()) {
+            VRui target = cgHit.collider.GetComponent<VRui>();
+            HandLasers[theHand].localScale = new Vector3(1f,1f, Vector3.Distance(ActualHands[theHand].position, cgHit.point));
+            HandLasers[theHand].position = ActualHands[theHand].position;
+            HandLasers[theHand].rotation = ActualHands[theHand].rotation;
+            target.Click(HandPinch[theHand]);
+        } else {
+            HandLasers[theHand].localScale = Vector3.zero;
         }
     }
 

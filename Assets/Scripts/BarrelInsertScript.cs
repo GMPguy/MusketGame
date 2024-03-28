@@ -14,7 +14,7 @@ public class BarrelInsertScript : ItemScript {
     }
 
     protected override void ItemCollision(Collision collision) {
-        if(simpleHandle.GrabStatus == 1 && collision.collider.name == "MusketBody" && collision.collider.transform.parent.GetComponent<FlintLockScript>().LoadBullet(InsertType, this.transform.position, this.transform.eulerAngles)){
+        if(simpleHandle.GrabStatus == 1 && collision.collider.name == "MusketBody" && collision.collider.transform.parent.GetComponent<FlintLockScript>().LoadBullet(InsertType, this.transform.position)){
             simpleHandle.Drop();
             Destroy(this.gameObject);
         }

@@ -56,8 +56,6 @@ public class FlintLockScript : ItemScript {
             HolderPos += Holder.HandVector[0];
             HolderRot += Holder.HandVector[2];
             setPos(true, new[]{movePivoted(this.transform, Holder.transform.position, HolderPos), HolderRot});
-            //setPos(true, new[]{movePivoted(this.transform, Holder.transform.position, Holder.Hand.position), Holder.Hand.position + Holder.Hand.forward, Holder.Hand.up});
-            //this.transform.position = Vector3.Lerp(this.transform.position, adherePivot(Holder.transform.position, Holder.Hand.position), 0.5f);
         } else {
             triggerRot[0] = 0f;
             HolderPos = Holder.transform.position;
@@ -199,6 +197,12 @@ public class FlintLockScript : ItemScript {
             if(prevCock != cockPosition){
                 prevCock = cockPosition;
                 ItemSound.PlayAudio("GunCock", 1f, 0, cock.transform.GetChild(0).position);
+                if(cockPosition == 0f && GS.AutomaticReload){
+                    loadedPowder = new[]{1f, 8f};
+                    insertedBullet = "Bullet";
+                    insertBullet = 0f;
+                    frizzenRot[0] = 0f;
+                }
             }
         } else {
             cockRot[0] = Mathf.Lerp(1f, 0f, fired);
@@ -273,7 +277,7 @@ public class FlintLockScript : ItemScript {
        
     }
 
-    public bool LoadBullet(string What, Vector3 Where, Vector3 Rot, float How = 0f){
+    public bool LoadBullet(string What, Vector3 Where, float How = 0f){
         bool permToLoad = false;
         if(((What == "Cartridge" || What == "Wad") && insertedBullet == "") || (What == "Bullet" && insertedBullet == "Wad")) 
             permToLoad = true;

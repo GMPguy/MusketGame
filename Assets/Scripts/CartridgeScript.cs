@@ -84,7 +84,7 @@ public class CartridgeScript : ItemScript {
     }
 
     protected override void ItemCollision(Collision collision){
-        if(simpleHandle.GrabStatus == 1 && !isBottle && collision.collider.name == "MusketBody" && Ripped > 0f && collision.collider.transform.parent.GetComponent<FlintLockScript>().LoadBullet("Cartridge", this.transform.position, this.transform.eulerAngles, PowderGrams[0])){
+        if(simpleHandle.GrabStatus == 1 && !isBottle && collision.collider.name == "MusketBody" && Ripped > 0f && collision.collider.transform.parent.GetComponent<FlintLockScript>().LoadBullet("Cartridge", this.transform.position, PowderGrams[0])){
             simpleHandle.Drop();
             if(Spent.gameObject) Destroy(Spent.gameObject);
             Destroy(this.gameObject);

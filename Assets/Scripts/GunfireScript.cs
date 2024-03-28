@@ -14,7 +14,7 @@ public class GunfireScript : MonoBehaviour {
     public GameObject WhoShot;
     public PhysicMaterial BulletMaterial;
     public bool Blank = false;
-
+    GameScript GS;
     public Transform Bullet;
     public ParticleSystem Smoke;
     public ParticleSystem Fire;
@@ -22,19 +22,20 @@ public class GunfireScript : MonoBehaviour {
     List<Vector3> Laser;
 
     void Start(){
+        GS = GameObject.FindObjectOfType<GameScript>();
         Speeds[0] = Mathf.Lerp(Speeds[0], Speeds[1], Power);
         Distances[0] = Mathf.Lerp(Distances[0], Distances[1], Power);
         Laser = new List<Vector3>();
         ParticleSystem.EmissionModule mSmoke = Smoke.emission;
         mSmoke.rateOverTime = Mathf.Lerp(50, 500, Power);
-        Smoke.Play();
+        if (GS.GunSmoke) Smoke.Play();
         PrevPos = Origin = this.transform.position;
         this.GetComponent<AudioSource>().clip = FireSounds[0];
         if(Power > 0f && !Blank){
             Bullet.parent = null;
-            Fire.Play();
+            if (GS.GunSmoke) Fire.Play();
             this.GetComponent<AudioSource>().Play();
-            Bullet.transform.Rotate(Random.Range(-.5f, .5f), Random.Range(-.5f, .5f), Random.Range(-.5f, .5f) * MaxAngle);
+            Bullet.transform.Rotate(new Vector3(Random.Range(-.5f, .5f), Random.Range(-.5f, .5f), Random.Range(-.5f, .5f)) * MaxAngle);
         } else {
             Bullet.localScale = Vector3.zero;
             Destroy(Bullet.GetChild(0).gameObject);
@@ -106,9 +107,7 @@ public class GunfireScript : MonoBehaviour {
                 bCol.material = BulletMaterial;
             }
 
-            for(int dl = 0; dl < Laser.ToArray().Length-1; dl+=2){
-                Debug.DrawLine(Laser[dl], Laser[dl+1], Color.red, 100f);
-            }
+            if(GS.BulletLaser) GS.DrawTraces(Laser);
         }
 
     }
