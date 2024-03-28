@@ -4875,6 +4875,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8f9114d7c5035dd4abd531948fe68a2d, type: 3}
   - {fileID: 8300000, guid: fdbcf5cc6898ee947b072564286c0646, type: 3}
   WhoShot: {fileID: 0}
+  BulletMaterial: {fileID: 0}
+  Blank: 0
   Bullet: {fileID: 5262343037068238464}
   Smoke: {fileID: 5262343036667017227}
   Fire: {fileID: 5262343037257336316}
@@ -4887,7 +4889,7 @@ AudioSource:
   m_GameObject: {fileID: 5262343035817461762}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3105339056500703572, guid: ccabd483551e5934ca7705529c828fe9, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

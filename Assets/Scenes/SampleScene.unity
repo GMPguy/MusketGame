@@ -459,7 +459,7 @@ AudioSource:
   m_GameObject: {fileID: 31678676}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3105339056500703572, guid: ccabd483551e5934ca7705529c828fe9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 60f16769eba29ba46b257d3e3c234659, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -9053,7 +9053,7 @@ AudioSource:
   m_GameObject: {fileID: 716613071}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3105339056500703572, guid: ccabd483551e5934ca7705529c828fe9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 7be619078baa3f64894cf4e78dc707fb, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
@@ -22925,8 +22925,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a36e8e037b32c4885cdd74b059c932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VolumeBank: {fileID: 24100000, guid: ccabd483551e5934ca7705529c828fe9, type: 2}
   BulletLaser: 0
   GunSmoke: 1
+  AutomaticReload: 0
   terrain: {fileID: 34664361}
   MainLight: {fileID: 0}
 --- !u!4 &1892003050

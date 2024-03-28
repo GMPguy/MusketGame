@@ -10,6 +10,7 @@ public class GunfireScript : MonoBehaviour {
     public float[] Distances, Speeds;
     const float Gravity = 9.8f; 
     float Lifetime;
+    float GunDeafen = 0f;
     public AudioClip[] FireSounds;
     public GameObject WhoShot;
     public PhysicMaterial BulletMaterial;
@@ -44,9 +45,15 @@ public class GunfireScript : MonoBehaviour {
             if(Power < 0f) this.GetComponent<AudioSource>().clip = FireSounds[1];
             this.GetComponent<AudioSource>().Play();
         }
+        if(Power > 0f) GunDeafen = 1f;
     }
 
     void Update(){
+        if(GunDeafen > 0f){
+            GunDeafen -= Time.deltaTime*2f;
+            GS.Deafen(GunDeafen, 5f);
+        }
+
         switch(State){
 
             case 0:

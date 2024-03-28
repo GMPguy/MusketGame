@@ -21,7 +21,7 @@ public class SpyglassScript : ItemScript {
 
         if(Holder.GrabStatus == 1){
             Handle.isActive = true;
-            if(Handle.GrabStatus == 1) setPos(true, new[]{Handle.Hand.position, Holder.Hand.position, Holder.Hand.forward});
+            if(Handle.GrabStatus == 1) setPos(true, new[]{Handle.Hand.position + (Vector3.up/20f), Holder.Hand.position, Holder.Hand.forward});
             else setPos(true, new[]{movePivoted(this.transform, Holder.transform.position, Holder.Hand.position), Holder.transform.position - Holder.Hand.up, Holder.Hand.forward});
         
             if(Handle.inhPinch > 0.5f) ZoomDist += Vector3.Dot(Handle.HandVector[1], this.transform.forward) * -4f;
