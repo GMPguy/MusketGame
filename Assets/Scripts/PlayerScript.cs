@@ -105,8 +105,15 @@ public class PlayerScript : MonoBehaviour {
                 if(thumbs[0].magnitude > 0.5f) {
                     thumbs[0] = thumbs[0] * (thumbs[0].magnitude-0.5f) * 2f;
                     Vector3 dmv = (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
-                    Collider[] pc =Physics.OverlapCapsule(this.transform.position+(Vector3.up*0.25f)+dmv, Head.transform.position-(Vector3.up*0.25f)+dmv, 0.1f, MovementLayerMask);
-                    if(pc.Length <= 0) this.transform.position += dmv;
+
+                    Collider[] pc = Physics.OverlapCapsule(
+                        this.transform.position+(Vector3.up*0.25f)+dmv,
+                        Head.transform.position-(Vector3.up*0.25f)+dmv, 
+                        0.1f, MovementLayerMask, QueryTriggerInteraction.Ignore
+                    );
+                    
+                    if(pc.Length <= 0) 
+                        this.transform.position += dmv;
                 }
                 if(Mathf.Abs(thumbs[1].x) > 0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x * (Mathf.Abs(thumbs[1].x)-0.5f))*2f * (Time.deltaTime * RotationSpeed));
                 //else if (Mathf.Abs(thumbs[1].x) < -0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x+0.5f)*2f * (Time.deltaTime * RotationSpeed));

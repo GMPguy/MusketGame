@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
+using Random=UnityEngine.Random;
 
 public class GameScript : MonoBehaviour {
 
@@ -27,23 +30,26 @@ public class GameScript : MonoBehaviour {
     // Bullet trace
 
     void Start(){
-        traces = new();
-        MainLight = GameObject.Find("Sun").GetComponent<Light>();
 
-        terrain.detailObjectDistance = 2000;
-        Physics.IgnoreLayerCollision(3, 6, true);
-        Physics.IgnoreLayerCollision(8, 8, true);
-
-        foreach (GameObject tree in GameObject.FindGameObjectsWithTag("Tree")) {
-            tree.transform.Rotate(Vector3.forward * Random.Range(0f, 360f));
-            tree.transform.localScale = Vector3.one * Random.Range(0.75f, 2f);
-            tree.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        if (GameObject.Find("GameScript")) {
+            Destroy(gameObject);
+            return;
+        } else {
+            this.name = "GameScript";
+            DontDestroyOnLoad(this.gameObject);
         }
+
+        SetUp();
+    }
+
+    void OnSceneLoaded(Scene scene){
+        SetUp();
     }
 
     void Update(){
 
-        MainLight.intensity = Mathf.Clamp(Mathf.Lerp(0f, 2f, Mathf.PerlinNoise(Time.timeSinceLevelLoad/10f, Time.timeSinceLevelLoad/10f)), 0f, 1f);
+        if (MainLight)
+            MainLight.intensity = Mathf.Clamp(Mathf.Lerp(0f, 2f, Mathf.PerlinNoise(Time.timeSinceLevelLoad/10f, Time.timeSinceLevelLoad/10f)), 0f, 1f);
 
         string[] vNames = new[]{"Master", "SFX", "EnvSFX", "Music"};
         Volume[2] = Volume[1] * deafenFactor[0];
@@ -53,6 +59,30 @@ public class GameScript : MonoBehaviour {
             VolumeBank.SetFloat(vNames[sv], Mathf.Log10(Volume[sv])*20);
         }
 
+    }
+
+    void SetUp(){
+        DynamicGI.UpdateEnvironment();
+        
+        traces = new();
+    
+        Physics.IgnoreLayerCollision(3, 6, true);
+        Physics.IgnoreLayerCollision(8, 8, true);
+
+        if (GameObject.Find("Terrain"))
+            terrain = GameObject.Find("Terrain").GetComponent<Terrain>();
+
+        if (GameObject.Find("MainSun"))
+            MainLight = GameObject.Find("MainSun").GetComponent<Light>();
+
+        if (terrain)
+            terrain.detailObjectDistance = 2000;
+
+        foreach (GameObject tree in GameObject.FindGameObjectsWithTag("Tree")) {
+            tree.transform.Rotate(Vector3.forward * Random.Range(0f, 360f));
+            tree.transform.localScale = Vector3.one * Random.Range(0.75f, 2f);
+            tree.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        }
     }
 
     public void Deafen(float Amount, float recTime, int method = 0){

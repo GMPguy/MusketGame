@@ -21,6 +21,7 @@ public class GunfireScript : MonoBehaviour {
     public ParticleSystem Fire;
     Vector3 Origin, PrevPos;
     List<Vector3> Laser;
+    public LayerMask BulletMask;
 
     void Start(){
         GS = GameObject.FindObjectOfType<GameScript>();
@@ -29,7 +30,8 @@ public class GunfireScript : MonoBehaviour {
         Laser = new List<Vector3>();
         ParticleSystem.EmissionModule mSmoke = Smoke.emission;
         mSmoke.rateOverTime = Mathf.Lerp(50, 500, Power);
-        if (GS.GunSmoke) Smoke.Play();
+        if (GS.GunSmoke) 
+            Smoke.Play();
         PrevPos = Origin = this.transform.position;
         this.GetComponent<AudioSource>().clip = FireSounds[0];
         if(Power > 0f && !Blank){
@@ -55,28 +57,31 @@ public class GunfireScript : MonoBehaviour {
         }
 
         switch(State){
-
             case 0:
                 Lifetime += Time.deltaTime;
                 float mainSpeed = Mathf.Lerp(Speeds[0], 0f, (Vector3.Distance(Bullet.position, Origin) - Distances[0]) / (Distances[0]*3f));
                 Bullet.position += (Bullet.forward*mainSpeed*Time.deltaTime) + (Vector3.down * (Gravity*Lifetime*Time.deltaTime));
+                
                 Laser.Add(PrevPos);
                 Laser.Add(Bullet.position);
 
                 Ray Tracer = new Ray(PrevPos, Bullet.position - PrevPos);
-                if(Physics.Raycast(Tracer, out RaycastHit TracerHIT, Vector3.Distance(Bullet.position, PrevPos))) Hit(TracerHIT.collider, new[]{TracerHIT.point, TracerHIT.normal});
-                else if (Bullet.position.y < 0f) Hit(null);
+
+                if(Physics.Raycast(Tracer, out RaycastHit TracerHIT, Vector3.Distance(Bullet.position, PrevPos), BulletMask)) 
+                    Hit(TracerHIT.collider, new[]{TracerHIT.point, TracerHIT.normal});
+                else if (Bullet.position.y < 0f) 
+                    Hit(null);
 
                 PrevPos = Bullet.position;
                 break;
             case 1:
                 Lifetime -= Time.deltaTime;
+
                 if(Lifetime <= 0f) {
                     Destroy(Bullet.gameObject);
                     Destroy(this.gameObject);
                 }
                 break;
-
         }
     }
 
