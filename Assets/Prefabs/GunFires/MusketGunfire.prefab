@@ -4882,7 +4882,7 @@ MonoBehaviour:
   Fire: {fileID: 5262343037257336316}
   BulletMask:
     serializedVersion: 2
-    m_Bits: 1019
+    m_Bits: 955
 --- !u!82 &5262343035817461823
 AudioSource:
   m_ObjectHideFlags: 0

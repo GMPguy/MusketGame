@@ -18,11 +18,13 @@ public class GameScript : MonoBehaviour {
     public bool BulletLaser = false;
     public bool GunSmoke = true;
     public bool AutomaticReload = false;
+    public int InvertedThumbsticks = 0;
     // Options
 
     // References
     public Terrain terrain;
     public Light MainLight;
+    public Material TracerMaterial;
     // References
 
     // Bullet trace
@@ -39,11 +41,7 @@ public class GameScript : MonoBehaviour {
             DontDestroyOnLoad(this.gameObject);
         }
 
-        SetUp();
-    }
-
-    void OnSceneLoaded(Scene scene){
-        SetUp();
+        traces = new();
     }
 
     void Update(){
@@ -61,30 +59,6 @@ public class GameScript : MonoBehaviour {
 
     }
 
-    void SetUp(){
-        DynamicGI.UpdateEnvironment();
-        
-        traces = new();
-    
-        Physics.IgnoreLayerCollision(3, 6, true);
-        Physics.IgnoreLayerCollision(8, 8, true);
-
-        if (GameObject.Find("Terrain"))
-            terrain = GameObject.Find("Terrain").GetComponent<Terrain>();
-
-        if (GameObject.Find("MainSun"))
-            MainLight = GameObject.Find("MainSun").GetComponent<Light>();
-
-        if (terrain)
-            terrain.detailObjectDistance = 2000;
-
-        foreach (GameObject tree in GameObject.FindGameObjectsWithTag("Tree")) {
-            tree.transform.Rotate(Vector3.forward * Random.Range(0f, 360f));
-            tree.transform.localScale = Vector3.one * Random.Range(0.75f, 2f);
-            tree.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-        }
-    }
-
     public void Deafen(float Amount, float recTime, int method = 0){
         if(method == 0) deafenFactor[0] = Amount;
         else deafenFactor[0] += Amount;
@@ -96,8 +70,7 @@ public class GameScript : MonoBehaviour {
         traces = new();
         if(Lasers != default){
             GameObject refCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            refCube.GetComponent<MeshRenderer>().materials[0].shader = Shader.Find("Unlit/Color");
-            refCube.GetComponent<MeshRenderer>().materials[0].color = Color.red;
+            refCube.GetComponent<MeshRenderer>().sharedMaterial = TracerMaterial;
             for(int dl = 0; dl < Lasers.ToArray().Length-1; dl+=2){
                 GameObject lp = Instantiate(refCube);
                 Destroy(lp.GetComponent<BoxCollider>());

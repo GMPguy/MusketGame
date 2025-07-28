@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -39,9 +40,16 @@ public class PlayerScript : MonoBehaviour {
     public GameObject[] CaughtObjects = {null, null, null, null}; // rGrab, rPinch, lGrab, lPinch
     // Hand actions
 
+    // References
+    public GameScript GS;
+    // References
+
     // Misc
     Vector3 Footstep;
     int FootstepID;
+    int ThumbRotation = 0;
+    int2 ThumbID = new (-1, 0);
+
     public LayerMask MovementLayerMask;
     public LadderScript isClimbing;
     public Rigidbody Rig;
@@ -57,6 +65,7 @@ public class PlayerScript : MonoBehaviour {
 
     void Start(){
         Rig = this.GetComponent<Rigidbody>();
+        GS = FindObjectOfType<GameScript>();
         HandsAnims[0] = HandsVisible[0].GetComponent<Animator>();
         HandsAnims[1] = HandsVisible[1].GetComponent<Animator>();
         for(int sh = 0; sh <= 1; sh++){
@@ -102,9 +111,14 @@ public class PlayerScript : MonoBehaviour {
                 Vector2[] thumbs = new []{ThumbstickDet[0].action.ReadValue<Vector2>(), ThumbstickDet[1].action.ReadValue<Vector2>()};
                 Vector3 normalFoward = new Vector3(Head.forward.x, 0f, Head.forward.z);
                 Vector3 normalRight = new Vector3(Head.right.x, 0f, Head.right.z);
-                if(thumbs[0].magnitude > 0.5f) {
-                    thumbs[0] = thumbs[0] * (thumbs[0].magnitude-0.5f) * 2f;
-                    Vector3 dmv = (normalFoward * thumbs[0].y + normalRight * thumbs[0].x) * (Time.deltaTime * Speed);
+
+                // Get thumb indexes
+                if (ThumbID.x != GS.InvertedThumbsticks)
+                    ThumbID = new (GS.InvertedThumbsticks, (GS.InvertedThumbsticks + 1) % 2);
+
+                if(thumbs[ThumbID.x].magnitude > 0.5f) {
+                    thumbs[ThumbID.x] = thumbs[ThumbID.x] * (thumbs[ThumbID.x].magnitude-0.5f) * 2f;
+                    Vector3 dmv = (normalFoward * thumbs[ThumbID.x].y + normalRight * thumbs[ThumbID.x].x) * (Time.deltaTime * Speed);
 
                     Collider[] pc = Physics.OverlapCapsule(
                         this.transform.position+(Vector3.up*0.25f)+dmv,
@@ -115,7 +129,11 @@ public class PlayerScript : MonoBehaviour {
                     if(pc.Length <= 0) 
                         this.transform.position += dmv;
                 }
-                if(Mathf.Abs(thumbs[1].x) > 0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x * (Mathf.Abs(thumbs[1].x)-0.5f))*2f * (Time.deltaTime * RotationSpeed));
+
+                if((int)(thumbs[ThumbID.y].x * 1.5f) != ThumbRotation) {
+                    ThumbRotation = (int)(thumbs[ThumbID.y].x * 1.5f);
+                    this.transform.Rotate(Vector3.up * ThumbRotation * 45f);
+                }
                 //else if (Mathf.Abs(thumbs[1].x) < -0.5f) this.transform.Rotate(Vector3.up * (thumbs[1].x+0.5f)*2f * (Time.deltaTime * RotationSpeed));
                 
                 if(Vector3.Distance(this.transform.position, Footstep) > 1f){
