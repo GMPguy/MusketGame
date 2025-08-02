@@ -77,7 +77,8 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 11400000, guid: 500d398106a1d9d4db431fb8385f57dd, type: 2}
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - Android
   - serializedVersion: 2
     name: Very High
     pixelLightCount: 3
@@ -113,7 +114,8 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 11400000, guid: 526d2e550c8011740b6a01ae7d92b8ab, type: 2}
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - Android
   m_PerPlatformDefaultQuality:
     Android: 0
     Lumin: 2

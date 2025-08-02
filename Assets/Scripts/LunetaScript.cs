@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.XR;
 public class LunetaScript : MonoBehaviour {
 
     public Camera LunetaCamera;
+    public RenderTexture LunetaTexture;
     public Transform Head, View;
     TrackedPoseDriver HP;
     public Transform[] Targets;

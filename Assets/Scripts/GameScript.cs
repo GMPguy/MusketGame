@@ -19,6 +19,7 @@ public class GameScript : MonoBehaviour {
     public bool GunSmoke = true;
     public bool AutomaticReload = false;
     public int InvertedThumbsticks = 0;
+    public bool LowEnd;
     // Options
 
     // References

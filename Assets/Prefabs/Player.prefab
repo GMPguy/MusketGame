@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8506654787677639398}
   - component: {fileID: 8506654787677639401}
   - component: {fileID: 8506654787677639400}
+  - component: {fileID: 7942240285855256107}
+  - component: {fileID: 4086926303346029951}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -134,6 +136,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Element 0
         m_Flags: 0
+      - m_Name: 
+        m_Id: d363b31b-7a43-4bf6-aa12-49f3ebd80601
+        m_Path: <XRController>{RightHand}/secondaryButton
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Element 0
+        m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
   - m_UseReference: 0
@@ -148,6 +158,14 @@ MonoBehaviour:
       - m_Name: 
         m_Id: 46ad48c3-fdfc-4508-84bc-2a0ed624fd56
         m_Path: <XRController>{LeftHand}/trigger
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Element 0
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 73603d4b-293d-46fd-a251-2928a4efbba6
+        m_Path: <XRController>{LeftHand}/secondaryButton
         m_Interactions: 
         m_Processors: 
         m_Groups: 
@@ -173,6 +191,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Element 0
         m_Flags: 0
+      - m_Name: 
+        m_Id: 17c63393-0749-45da-8d2d-63d414e5f456
+        m_Path: <XRController>{RightHand}/primaryButton
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Element 0
+        m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
   - m_UseReference: 0
@@ -187,6 +213,14 @@ MonoBehaviour:
       - m_Name: 
         m_Id: 59b386d8-ed9c-45b9-a35a-efa46d22eba4
         m_Path: <XRController>{LeftHand}/grip
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Element 0
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 0a8b8d76-b931-478b-9914-8b439e26bddc
+        m_Path: <XRController>{LeftHand}/primaryButton
         m_Interactions: 
         m_Processors: 
         m_Groups: 
@@ -275,6 +309,30 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &7942240285855256107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8506654787677639394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519f6ee6510174b44bbe9a8a2d3b6a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4086926303346029951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8506654787677639394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30257f473861cfd4a9269b5bf4020e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8506654787714587982
 GameObject:
   m_ObjectHideFlags: 0
