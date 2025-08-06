@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.38681164, g: 0.39776725, b: 0.40663528, a: 1}
+  m_IndirectSpecularColor: {r: 0.38693827, g: 0.3972146, b: 0.40614614, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -893,7 +893,7 @@ MonoBehaviour:
   GunSmoke: 1
   AutomaticReload: 0
   InvertedThumbsticks: 0
-  LowEnd: 1
+  LowEnd: 0
   terrain: {fileID: 0}
   MainLight: {fileID: 0}
   TracerMaterial: {fileID: 2100000, guid: b93984f63dc1d664ba6b28e873da2fa6, type: 2}
@@ -2177,6 +2177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c05762524616f245b60a5b2ec724120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LowEndTermination: []
 --- !u!4 &785623417
 Transform:
   m_ObjectHideFlags: 0
@@ -3376,7 +3377,8 @@ MonoBehaviour:
     bachelor thesis, and other projects), there hasn\u2019t been any update since.
     I also do not expect to work on this project for the time being.\r\n\r\nThere
     is however, a possibility that \u2013 should the right circumstances become evident
-    \u2013 the project might get developed into something more sophisticated."
+    \u2013 the project might get developed into something more sophisticated.\n\nUntil
+    then, enjoy the demo!"
 --- !u!222 &1366236239
 CanvasRenderer:
   m_ObjectHideFlags: 0
